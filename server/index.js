@@ -5,10 +5,13 @@ const express = require('express');
 const app = express();
 
 // import routes
+const user = require('./routes/users');
+app.use('/users',user);
 
 // CONNECTING TO A MONGO DATABASE
 // reference the mongoose module
 let mongoose = require('mongoose');
+const router = require('./routes/users');
 mongoose.set('useCreateIndex',true)
 // connect to database
 let mongoDB = require('./config/keys').mongoURI
