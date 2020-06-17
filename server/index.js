@@ -6,6 +6,8 @@ const app = express();
 
 // import routes
 const user = require('./routes/users');
+const api = require('./routes/api');
+app.use('/api',api);
 app.use('/users',user);
 
 // CONNECTING TO A MONGO DATABASE

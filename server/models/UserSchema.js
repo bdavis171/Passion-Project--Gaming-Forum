@@ -12,7 +12,7 @@ const UserSchema = new Schema(
         password: {type:String,required: true},
         bio: String,
         profileImg: String,
-        gamesOwned: Array,
+        gamesOwned: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksGames"}],
         platformsOwned: Array,
         posts: [{type: mongoose.Schema.Types.ObjectId,ref:""}],
         replies: [{type: mongoose.Schema.Types.ObjectId,ref:""}],
