@@ -13,6 +13,7 @@ const secretKey = require('../config/keys').secretOrKey;
 // import schemas
 const GameCollection = require('../models/GameSchema');
 const UserCollection = require('../models/UserSchema');
+const PostCollection = require('../models/PostSchema');
 
 
 ///////////////////////////////////////////////////////////////
@@ -71,27 +72,60 @@ router.delete("/games/:id",(req,res) => {
 });
 
 // PUT: relate a game to a user
-router.put("/games/relate/:gameID/:email",async (req,res) => {
+router.put("/games/relate/:gameID",authenticateToken,async (req,res) => {
     // res.send('game has been related');
-    let game,user;
+    let game,currentUser;
     await GameCollection.findById(req.params.gameID,(errors,results) => {
         if(errors){
             res.send(errors);
         } else {
             game = results;
-            UserCollection.findOne({email: req.params.email},(errors,results) => {
+            UserCollection.findOne({email: req.user.email},(errors,results) => {
                 if(errors){
                     res.send(errors);
                 } else {
-                    user = results;
-                    user.gamesOwned.push(game._id);
-                    user.save();
-                    res.send(user);
+                    currentUser = results;
+                    currentUser.gamesOwned.push(game._id);
+                    currentUser.save();
+                    res.send(currentUser);
                 }
-            })
+            });
         }
-    })
-})
+    });
+});
+
+///////////////////////////////////////////////////////////////
+//
+//               Posts
+//
+///////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////
+//
+//               Authorization
+//
+///////////////////////////////////////////////////////////////
+
+// authenticate token
+function authenticateToken(req,res,next){
+    let header = req.headers["authorization"];
+
+    if(header) {
+        token = header.split(" ")[1];
+        jwt.verify(token,secretKey, (errors,results) => {
+            if(errors) {
+                res.status(500).json({error: errors});
+            } else {
+                req.user = results;
+                next();
+            }
+        });
+    } else {
+        res.status(403).json({error: "Please sign in to access this page"});
+    }
+}
 
 // export routes
 module.exports = router;

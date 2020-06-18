@@ -13,7 +13,6 @@ const UserSchema = new Schema(
         bio: String,
         profileImg: String,
         gamesOwned: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksGames"}],
-        platformsOwned: Array,
         posts: [{type: mongoose.Schema.Types.ObjectId,ref:""}],
         replies: [{type: mongoose.Schema.Types.ObjectId,ref:""}],
         signature: String,
