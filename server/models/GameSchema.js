@@ -13,7 +13,7 @@ const GameSchema = new Schema(
         developer: {type: String,required: true},
         publisher: {type:String,required: true},
         releasedDate: {type: String,required: true},
-        relatedPosts: [{type: mongoose.Schema.Types.ObjectId,ref:""}]
+        relatedPosts: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksPosts"}]
     }
 );
 

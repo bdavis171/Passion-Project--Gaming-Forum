@@ -13,7 +13,7 @@ const UserSchema = new Schema(
         bio: String,
         profileImg: String,
         gamesOwned: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksGames"}],
-        posts: [{type: mongoose.Schema.Types.ObjectId,ref:""}],
+        posts: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksPosts"}],
         replies: [{type: mongoose.Schema.Types.ObjectId,ref:""}],
         signature: String,
         role: {type:String,required:true}
