@@ -160,7 +160,10 @@ router.put("/posts/:id",(req,res) => {
 
 // DELETE: delete a post
 router.delete("/posts/:id",(req,res) => {
-    res.send("post deleted");
+    // res.send("post deleted");
+    PostCollection.findByIdAndDelete(req.params.id,(errors,results) => {
+        errors ? res.send(errors):res.send(results);
+    });
 });
 
 ///////////////////////////////////////////////////////////////
