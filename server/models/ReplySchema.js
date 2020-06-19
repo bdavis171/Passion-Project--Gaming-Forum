@@ -11,7 +11,7 @@ const ReplySchema = new Schema(
         authorEmail: String,
         body: {type:String,required:true},
         dateCreated: {type: Date, default:Date.now},
-        relatedPosts: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksPosts"}]
+        relatedPost: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksPosts"}]
     }
 );
 

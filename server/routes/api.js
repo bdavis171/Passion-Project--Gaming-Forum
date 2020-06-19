@@ -14,6 +14,8 @@ const secretKey = require('../config/keys').secretOrKey;
 const GameCollection = require('../models/GameSchema');
 const UserCollection = require('../models/UserSchema');
 const PostCollection = require('../models/PostSchema');
+const ReplyCollection = require('../models/ReplySchema');
+const PlatformCollection = require('../models/PlatformSchema');
 
 
 ///////////////////////////////////////////////////////////////
@@ -165,6 +167,79 @@ router.delete("/posts/:id",(req,res) => {
         errors ? res.send(errors):res.send(results);
     });
 });
+
+///////////////////////////////////////////////////////////////
+//
+//                Replyies
+//
+//////////////////////////////////////////////////////////////
+
+// POST: create a new reply and relate it to a post and user
+router.post("/reply/:postID",authenticateToken,async(req,res) => {
+    // res.send("reply created");
+    let reply,post,currentUser;
+    await ReplyCollection.create(req.body,(errors,results) => {
+        if(errors){
+            res.send(errors);
+        } else {
+            reply = results;
+            PostCollection.findById(req.params.postID,(errors,results) => {
+                if(errors){
+                    res.send(errors);
+                } else {
+                    post = results;
+                    UserCollection.findOne({email: req.user.email},(errors,results) => {
+                        if(errors){
+                            res.send(errors);
+                        } else {
+                            currentUser = results;
+                            reply.relatedPost.push(post._id);
+                            post.replies.push(reply._id);
+                            currentUser.replies.push(reply._id);
+                            reply.save();
+                            post.save();
+                            currentUser.save();
+                            res.send(reply);
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
+// GET: view all replies
+router.get("/reply",(req,res) => {
+    // res.send("all replies viewed");
+    ReplyCollection.find((errors,results) => {
+        errors ? res.send(errors):res.send(results);
+    }).populate("relatedPost");
+});
+
+// GET: view one reply
+router.get("/reply/:id",(req,res) => {
+    // res.send("one reply viewed");
+    ReplyCollection.findById(req.params.id,(errors,results) => {
+        errors ? res.send(errors):res.send(results);
+    }).populate("relatedPost");
+});
+
+// PUT: edit a reply
+router.put("/reply/:id",(req,res) => {
+    // res.send("reply edited");
+    ReplyCollection.findByIdAndUpdate(req.params.id,req.body,{new:true},(errors,results) => {
+        errors ? res.send(errors):res.send(results);
+    });
+});
+
+// DELETE: delete a reply
+router.delete("/reply/:id",(req,res) => {
+    // res.send("reply deleted");
+    ReplyCollection.findByIdAndDelete(req.params.id,(errors,results) => {
+        errors ? res.send(errors):res.send(results);
+    });
+});
+
 
 ///////////////////////////////////////////////////////////////
 //
