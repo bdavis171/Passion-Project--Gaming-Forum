@@ -12,6 +12,8 @@ const secretKey = require('../config/keys').secretOrKey;
 
 // import schema
 const UserCollection = require('../models/UserSchema');
+const PostCollection = require('../models/PostSchema');
+const ReplyCollection = require('../models/ReplySchema');
 
 
 // POST: register a user
@@ -74,10 +76,10 @@ router.post("/login", (req, res) => {
 });
 
 // GET: Find one user by email
-router.get("/:email",(req,res) => {
-    UserCollection.findOne({email: req.params.email}, (errors,results) => {
-        errors ? res.status(404).json({error: "User not found"}):res.send(results);
-    })//.populate("gamesOwned");
+router.get("/:email", (req, res) => {
+    UserCollection.findOne({ email: req.params.email }, (errors, results) => {
+        errors ? res.status(404).json({ error: "User not found." }) : res.send(results);
+    }).populate("gamesOwned").populate("posts").populate("replies");
 });
 
 // POST: verify user
@@ -87,6 +89,67 @@ router.post("/verify", verifyToken, (req, res) => {
             ? res.status(500).json({ error: "verificaiton error!!!" })
             : res.json({ message: results });
     });
+});
+
+//Update user by id
+router.put("/:id", (req, res) => {
+
+    if (!req.body.password) {
+        UserCollection.findByIdAndUpdate(
+            req.params.id, req.body, { new: true }, (error, results) => {
+                error ? res.send(error) : res.send(results);
+            }
+        );
+    } else {
+        let password = req.body.password;
+        bcrypt.genSalt(10, (error, salt) => {
+            bcrypt.hash(password, salt, (error, hash) => {
+                if (error) {
+                    res.send(error);
+                } else {
+                    req.body.password = hash;
+
+                    UserCollection.findByIdAndUpdate(
+                        req.params.id, req.body, { new: true }, (error, results) => {
+                            error ? res.send(error) : res.send(results);
+                        }
+                    );
+                }
+            });
+        });
+    }
+});
+
+// DELETE: delete user
+router.delete("/:email", (req, res) => {
+    // find the user
+    UserCollection.findOne({ email: req.params.email }, (errors, results) => {
+        errors ? res.send(errors)
+            :
+            results.posts.forEach(post => {
+                // delete the post for that user
+                PostCollection.findByIdAndDelete(post._id, (errors, results) => {
+                    errors ? res.send(errors) : console.log(results);
+                });
+
+            });
+
+        results.posts.forEach(reply => {
+            // delete the replies for that user
+            ReplyCollection.findByIdAndDelete(reply._id,(errors,results) => {
+                errors ? res.send(errors) : console.log(results);
+            })
+        }
+        );
+
+    })
+
+    // delete the user
+    UserCollection.findOneAndDelete(
+        { email: req.params.email }, (error, results) => {
+            error ? res.send(error) : res.send(results);
+        }
+    );
 });
 
 // verify user token
