@@ -77,7 +77,7 @@ router.post("/login", (req, res) => {
 router.get("/:email",(req,res) => {
     UserCollection.findOne({email: req.params.email}, (errors,results) => {
         errors ? res.status(404).json({error: "User not found"}):res.send(results);
-    }).populate("gamesOwned");
+    })//.populate("gamesOwned");
 });
 
 // POST: verify user

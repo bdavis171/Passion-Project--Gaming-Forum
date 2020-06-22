@@ -10,10 +10,10 @@ const PostSchema = new Schema(
         title: {type: String,required: true},
         body: {type: String,required: true},
         relatedGame:[{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksGames"}],
-        relatedPlatform: String,
+        relatedPlatform: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksConsoles"}],
         author: String,
         authorEmail: String,
-        replies: [{type: mongoose.Schema.Types.ObjectId,ref:""}],
+        replies: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksReplies"}],
         dateCreated: {type: Date,default:Date.now}
 
     }

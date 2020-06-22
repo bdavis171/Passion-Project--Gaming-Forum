@@ -9,7 +9,7 @@ const GameSchema = new Schema(
     {
         title: {type: String, required: true},
         genre: {type: String,required: true},
-        platform: {type: String,required: true},
+        platform: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksConsoles"}],
         developer: {type: String,required: true},
         publisher: {type:String,required: true},
         releasedDate: {type: String,required: true},

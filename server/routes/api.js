@@ -24,66 +24,100 @@ const PlatformCollection = require('../models/PlatformSchema');
 //
 //////////////////////////////////////////////////////////////
 
-// POST: add a new game
-router.post("/games",(req,res)=> {
+// POST: add a new game and relate it to a platform
+router.post("/games/:platformName", async (req, res) => {
     // res.send("new game added");
-    GameCollection.create(req.body,(errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    let game, platform;
+    await GameCollection.create(req.body, (errors, results) => {
+        errors ? res.send(errors)
+            :
+            game = results;
+        PlatformCollection.findOne({ name: req.params.platformName }, (errors, results) => {
+            errors ? res.send(errors)
+                :
+                platform = results;
+            game.platform.push(platform._id);
+            platform.games.push(game._id);
+            game.save();
+            platform.save();
+            res.send(game);
+        })
     });
 });
 
 // GET: view all games
-router.get("/games",(req,res) => {
+router.get("/games", (req, res) => {
     // res.send("all games viewed")
-    GameCollection.find((errors,results) => {
-        errors ? res.send(errors):res.send(results);
-    }).populate("relatedPosts");
+    GameCollection.find((errors, results) => {
+        errors ? res.send(errors) : res.send(results);
+    }).populate("relatedPosts").populate("platform");
 });
 
 // GET: view one game by id
-router.get("/games/:id",(req,res) => {
+router.get("/games/:id", (req, res) => {
     // res.send("one game viewed");
-    GameCollection.findById(req.params.id,(errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    GameCollection.findById(req.params.id, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
     });
 });
 
 // GET: view game(s) by title
-router.get("/games/searchByTitle/:title",(req,res) => {
+router.get("/games/searchByTitle/:title", (req, res) => {
     // res.send("game(s) found by title");
-    GameCollection.find({title: req.params.title},(errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    GameCollection.find({ title: req.params.title }, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
     });
 
 });
 
 // PUT: edit one game by id
-router.put("/games/:id",(req,res) => {
+router.put("/games/:id", (req, res) => {
     // res.send("one game updated");
-    GameCollection.findByIdAndUpdate(req.params.id,req.body,{new: true},(errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    GameCollection.findByIdAndUpdate(req.params.id, req.body, { new: true }, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
     });
 });
 
 // DELETE: delete one game by id
-router.delete("/games/:id",(req,res) => {
-    // res.send("one game deleted");
-    GameCollection.findByIdAndDelete(req.params.id,(errors,results) => {
-        errors ? res.send(errors):res.send(results);
+router.delete("/games/:id", (req, res) => {
+
+    GameCollection.findByIdAndDelete(req.params.id, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
+
     });
+
+    PlatformCollection.find((errors, results) => {
+        errors ? res.send(errors)
+            :
+            results.map((platform) => {
+                platform.games.splice(platform.games.indexOf(req.params.id), 1);
+                platform.save();
+            });
+    });
+
+    UserCollection.find((errors, results) => {
+        errors ? res.send(errors)
+            :
+            results.map((user) => {
+                user.gamesOwned.splice(user.gamesOwned.indexOf(req.params.id), 1);
+                user.save();
+                console.log(user.gamesOwned);
+            })
+    })
+
 });
 
 // PUT: relate a game to a user
-router.put("/games/relate/:gameID",authenticateToken,async (req,res) => {
-    // res.send('game has been related');
-    let game,currentUser;
-    await GameCollection.findById(req.params.gameID,(errors,results) => {
-        if(errors){
+router.put("/games/relate/:gameID", authenticateToken, async (req, res) => {
+
+    let game, currentUser;
+    await GameCollection.findById(req.params.gameID, (errors, results) => {
+        if (errors) {
             res.send(errors);
         } else {
             game = results;
-            UserCollection.findOne({email: req.user.email},(errors,results) => {
-                if(errors){
+            UserCollection.findOne({ email: req.user.email }, (errors, results) => {
+                if (errors) {
                     res.send(errors);
                 } else {
                     currentUser = results;
@@ -98,26 +132,105 @@ router.put("/games/relate/:gameID",authenticateToken,async (req,res) => {
 
 ///////////////////////////////////////////////////////////////
 //
+//                 Game Routes
+//
+//////////////////////////////////////////////////////////////
+
+// POST: add a new platform
+router.post("/platform", (req, res) => {
+
+    PlatformCollection.create(req.body, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
+    });
+});
+
+// GET: view all platforms
+router.get("/platform", (req, res) => {
+
+    PlatformCollection.find((errors, results) => {
+        errors ? res.send(errors) : res.send(results);
+    }).populate("relatedPosts").populate("games");
+});
+
+// GET: view one platform by name
+router.get("/platform/:name", (req, res) => {
+
+    PlatformCollection.findOne({ name: req.params.name }, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
+    });
+});
+
+// PUT: edit one platform by name
+router.put("/platform/:name", (req, res) => {
+
+    PlatformCollection.findOneAndUpdate({ name: req.params.name }, req.body, { new: true }, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
+    });
+});
+
+// DELETE: delete one platform by name
+router.delete("/platform/:name", (req, res) => {
+    // find the platform
+    PlatformCollection.findOne({ name: req.params.name }, (errors, results) => {
+        errors ? res.send(errors)
+            :
+
+            // delete the posts related to the platform
+            results.relatedPosts.forEach(post => {
+                PostCollection.findByIdAndDelete(post._id, (errors, results) => {
+                    errors ? res.send(errors) : console.log(results);
+                })
+            })
+
+        results.games.forEach(game => {
+            // get all users and remove the game from their list of games
+            UserCollection.find((errors, results) => {
+                errors ? res.send(errors)
+                    :
+                    results.map((user) => {
+                        user.gamesOwned.splice(user.gamesOwned.indexOf(game._id), 1);
+                        user.save();
+                        console.log(user.gamesOwned);
+                    })
+            })
+
+            // find and delete all games of the platform
+            GameCollection.findByIdAndDelete(game._id, (errors, results) => {
+                errors ? res.send(errors)
+                    :
+                    console.log(results);
+            })
+        });
+    })
+
+    // delete the platform
+    PlatformCollection.findOneAndDelete({ name: req.params.name }, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
+    });
+});
+
+///////////////////////////////////////////////////////////////
+//
 //               Posts
 //
 ///////////////////////////////////////////////////////////////
 
 // POST: create a new post and relate it to the user and the game
-router.post("/posts/:gameID",authenticateToken,async(req,res) => {
+router.post("/posts/game/:gameID", authenticateToken, async (req, res) => {
     // res.send("post created and related");
     let post, game, currentUser;
-    await PostCollection.create(req.body,(errors,results) => {
-        if(errors){
+    await PostCollection.create(req.body, (errors, results) => {
+        if (errors) {
             res.send(errors);
         } else {
             post = results;
-            GameCollection.findById(req.params.gameID,(errors,results) => {
-                if(errors){
+            GameCollection.findById(req.params.gameID, (errors, results) => {
+                if (errors) {
                     res.send(errors);
                 } else {
                     game = results;
-                    UserCollection.findOne({email: req.user.email},(errors,results) => {
-                        if(errors){
+                    UserCollection.findOne({ email: req.user.email }, (errors, results) => {
+                        if (errors) {
                             res.send(errors);
                         } else {
                             currentUser = results;
@@ -136,35 +249,69 @@ router.post("/posts/:gameID",authenticateToken,async(req,res) => {
     })
 });
 
+// POST: create a post and relate it to a platform
+router.post("/posts/platform/:platformName", authenticateToken, async (req, res) => {
+    // res.send("post created and related");
+    let post, platform, currentUser;
+    await PostCollection.create(req.body, (errors, results) => {
+        if (errors) {
+            res.send(errors);
+        } else {
+            post = results;
+            PlatformCollection.findOne({name: req.params.platformName}, (errors, results) => {
+                if (errors) {
+                    res.send(errors);
+                } else {
+                    platform = results;
+                    UserCollection.findOne({ email: req.user.email }, (errors, results) => {
+                        if (errors) {
+                            res.send(errors);
+                        } else {
+                            currentUser = results;
+                            platform.relatedPosts.push(post._id);
+                            post.relatedPlatform.push(platform._id);
+                            currentUser.posts.push(post._id);
+                            platform.save();
+                            post.save();
+                            currentUser.save();
+                            res.send(post);
+                        }
+                    })
+                }
+            })
+        }
+    })
+});
+
 // GET: view all posts
-router.get("/posts",(req,res) => {
+router.get("/posts", (req, res) => {
     // res.send("all posts viewed");
-    PostCollection.find((errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    PostCollection.find((errors, results) => {
+        errors ? res.send(errors) : res.send(results);
     }).populate("relatedGame");
 });
 
 // GET: view one post by id
-router.get("/posts/:id",(req,res) => {
+router.get("/posts/:id", (req, res) => {
     // res.send("one post viewed");
-    PostCollection.findById(req.params.id,(errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    PostCollection.findById(req.params.id, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
     });
 });
 
 // PUT: edit a post
-router.put("/posts/:id",(req,res) => {
+router.put("/posts/:id", (req, res) => {
     // res.send("post edited");
-    PostCollection.findByIdAndUpdate(req.params.id,req.body,{new:true},(errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    PostCollection.findByIdAndUpdate(req.params.id, req.body, { new: true }, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
     });
 });
 
 // DELETE: delete a post
-router.delete("/posts/:id",(req,res) => {
+router.delete("/posts/:id", (req, res) => {
     // res.send("post deleted");
-    PostCollection.findByIdAndDelete(req.params.id,(errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    PostCollection.findByIdAndDelete(req.params.id, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
     });
 });
 
@@ -175,21 +322,21 @@ router.delete("/posts/:id",(req,res) => {
 //////////////////////////////////////////////////////////////
 
 // POST: create a new reply and relate it to a post and user
-router.post("/reply/:postID",authenticateToken,async(req,res) => {
+router.post("/reply/:postID", authenticateToken, async (req, res) => {
     // res.send("reply created");
-    let reply,post,currentUser;
-    await ReplyCollection.create(req.body,(errors,results) => {
-        if(errors){
+    let reply, post, currentUser;
+    await ReplyCollection.create(req.body, (errors, results) => {
+        if (errors) {
             res.send(errors);
         } else {
             reply = results;
-            PostCollection.findById(req.params.postID,(errors,results) => {
-                if(errors){
+            PostCollection.findById(req.params.postID, (errors, results) => {
+                if (errors) {
                     res.send(errors);
                 } else {
                     post = results;
-                    UserCollection.findOne({email: req.user.email},(errors,results) => {
-                        if(errors){
+                    UserCollection.findOne({ email: req.user.email }, (errors, results) => {
+                        if (errors) {
                             res.send(errors);
                         } else {
                             currentUser = results;
@@ -209,34 +356,34 @@ router.post("/reply/:postID",authenticateToken,async(req,res) => {
 });
 
 // GET: view all replies
-router.get("/reply",(req,res) => {
+router.get("/reply", (req, res) => {
     // res.send("all replies viewed");
-    ReplyCollection.find((errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    ReplyCollection.find((errors, results) => {
+        errors ? res.send(errors) : res.send(results);
     }).populate("relatedPost");
 });
 
 // GET: view one reply
-router.get("/reply/:id",(req,res) => {
+router.get("/reply/:id", (req, res) => {
     // res.send("one reply viewed");
-    ReplyCollection.findById(req.params.id,(errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    ReplyCollection.findById(req.params.id, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
     }).populate("relatedPost");
 });
 
 // PUT: edit a reply
-router.put("/reply/:id",(req,res) => {
+router.put("/reply/:id", (req, res) => {
     // res.send("reply edited");
-    ReplyCollection.findByIdAndUpdate(req.params.id,req.body,{new:true},(errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    ReplyCollection.findByIdAndUpdate(req.params.id, req.body, { new: true }, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
     });
 });
 
 // DELETE: delete a reply
-router.delete("/reply/:id",(req,res) => {
+router.delete("/reply/:id", (req, res) => {
     // res.send("reply deleted");
-    ReplyCollection.findByIdAndDelete(req.params.id,(errors,results) => {
-        errors ? res.send(errors):res.send(results);
+    ReplyCollection.findByIdAndDelete(req.params.id, (errors, results) => {
+        errors ? res.send(errors) : res.send(results);
     });
 });
 
@@ -248,21 +395,21 @@ router.delete("/reply/:id",(req,res) => {
 ///////////////////////////////////////////////////////////////
 
 // authenticate token
-function authenticateToken(req,res,next){
+function authenticateToken(req, res, next) {
     let header = req.headers["authorization"];
 
-    if(header) {
+    if (header) {
         token = header.split(" ")[1];
-        jwt.verify(token,secretKey, (errors,results) => {
-            if(errors) {
-                res.status(500).json({error: errors});
+        jwt.verify(token, secretKey, (errors, results) => {
+            if (errors) {
+                res.status(500).json({ error: errors });
             } else {
                 req.user = results;
                 next();
             }
         });
     } else {
-        res.status(403).json({error: "Please sign in to access this page"});
+        res.status(403).json({ error: "Please sign in to access this page" });
     }
 }
 
