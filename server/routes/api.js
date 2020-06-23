@@ -309,7 +309,40 @@ router.put("/posts/:id", (req, res) => {
 
 // DELETE: delete a post
 router.delete("/posts/:id", (req, res) => {
-    // res.send("post deleted");
+    // find the post
+    PostCollection.findById(req.params.id,(errors,results) => {
+        errors ? res.send(errors)
+        :
+        
+        results.replies.forEach(reply => {
+            // remove the replies from the users
+            UserCollection.find((errors,results) => {
+                errors ? res.send(errors)
+                :
+                results.map(user => {
+                    user.replies.splice(user.replies.indexOf(reply),1);
+                    user.save()
+                });
+            });
+
+            // delete the replies for the post
+            ReplyCollection.findByIdAndDelete(reply._id,(errors,results) => {
+                errors ? res.send(errors):console.log(results);
+            })
+        });
+    });
+
+     // remove the post from the user
+     UserCollection.find((errors,results) => {
+        errors ? res.send(errors)
+        :
+        results.map(user => {
+            user.posts.splice(user.posts.indexOf(req.params.id),1);
+            user.save();
+        });
+    });
+
+    // delete the post
     PostCollection.findByIdAndDelete(req.params.id, (errors, results) => {
         errors ? res.send(errors) : res.send(results);
     });
@@ -373,7 +406,7 @@ router.get("/reply/:id", (req, res) => {
 
 // PUT: edit a reply
 router.put("/reply/:id", (req, res) => {
-    // res.send("reply edited");
+    
     ReplyCollection.findByIdAndUpdate(req.params.id, req.body, { new: true }, (errors, results) => {
         errors ? res.send(errors) : res.send(results);
     });
@@ -381,7 +414,27 @@ router.put("/reply/:id", (req, res) => {
 
 // DELETE: delete a reply
 router.delete("/reply/:id", (req, res) => {
-    // res.send("reply deleted");
+    // remove the reply from the post
+    PostCollection.find((errors,results) => {
+        errors ? res.send(errors)
+        :
+        results.map(post => {
+            post.replies.splice(post.replies.indexOf(req.params.id),1);
+            post.save();
+        });
+    });
+
+    // remove the reply from the user
+    UserCollection.find((errors,results) => {
+        errors ? res.send
+        :
+        results.map(user => {
+            user.replies.splice(user.replies.indexOf(req.params.id),1);
+            user.save();
+        })
+    })
+  
+    // delete the reply
     ReplyCollection.findByIdAndDelete(req.params.id, (errors, results) => {
         errors ? res.send(errors) : res.send(results);
     });
