@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 
 
 export default class Login extends Component {
@@ -8,10 +9,13 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      token: "",
-      
+
+      redirect: false
     };
   }
+
+  
+
   //handle changes in the input fields
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -32,13 +36,16 @@ export default class Login extends Component {
     console.log(json);
     if (json.error) {
       window.alert(json.error);
+    } else {
+      this.props.getToken(json.token);
     }
-    this.setState({ token: json.token });
-    console.log(this.state.token);
-    this.props.getToken(json.token);
+    this.setState({redirect: true})
   };
 
   render() {
+    if(this.state.redirect){
+      return <Redirect to="/"/>
+    }
     return (
       <div>
         <div>
@@ -53,7 +60,7 @@ export default class Login extends Component {
             <input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
           </div>
             <div>
-              <button onClick={this.handleSubmission}>Submit</button>
+              <button onClick={this.handleSubmission} type="submit">Submit</button>
             </div>
           </form>
         </div>

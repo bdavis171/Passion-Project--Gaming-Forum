@@ -25,14 +25,14 @@ const PlatformCollection = require('../models/PlatformSchema');
 //////////////////////////////////////////////////////////////
 
 // POST: add a new game and relate it to a platform
-router.post("/games/:platformName", async (req, res) => {
+router.post("/games/:platformID", async (req, res) => {
     // res.send("new game added");
     let game, platform;
     await GameCollection.create(req.body, (errors, results) => {
         errors ? res.send(errors)
             :
             game = results;
-        PlatformCollection.findOne({ name: req.params.platformName }, (errors, results) => {
+        PlatformCollection.findById(req.params.platformID, (errors, results) => {
             errors ? res.send(errors)
                 :
                 platform = results;
@@ -58,7 +58,7 @@ router.get("/games/:id", (req, res) => {
     // res.send("one game viewed");
     GameCollection.findById(req.params.id, (errors, results) => {
         errors ? res.send(errors) : res.send(results);
-    });
+    }).populate("platform").populate("relatedPosts");
 });
 
 // GET: view game(s) by title
@@ -132,7 +132,7 @@ router.put("/games/relate/:gameID", authenticateToken, async (req, res) => {
 
 ///////////////////////////////////////////////////////////////
 //
-//                 Game Routes
+//                 Platform Routes
 //
 //////////////////////////////////////////////////////////////
 

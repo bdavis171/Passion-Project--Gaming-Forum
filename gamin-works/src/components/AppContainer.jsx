@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
-import AddAPlatform from "./AddAPlatform";
-import SpecificPlatform from "./SpecificPlatform";
-import AllPlatforms from "./AllPlatforms";
+import AddAPlatform from "./Platforms/AddAPlatform";
+import SpecificPlatform from "./Platforms/SpecificPlatform";
+import AllPlatforms from "./Platforms/AllPlatforms";
+import AddAGame from "./Games/AddAGame";
+import SpecificGame from "./Games/SpecificGame";
 
 class AppContainer extends Component {
     constructor(props) {
@@ -18,6 +20,10 @@ class AppContainer extends Component {
 
     componentDidMount = () => {
         this.loadConsoleData();
+    }
+
+    shouldComponentUpdate = () => {
+        return true;
     }
 
     // load console data
@@ -65,21 +71,25 @@ class AppContainer extends Component {
         // });
         // console.log(this.state.tokenUser);
         console.log(sessionStorage.getItem("token"));
-        console.log(json);
-
+        console.log(JSON.parse(sessionStorage.tokenUser));
+        window.location.reload();
 
     };
 
+    // log out user
+    handleLogout = (event) => {
+        sessionStorage.setItem("token", "");
+        window.location.reload();
+    }
+
     render() {
         let handleLogin;
-        if(sessionStorage.getItem("token")){
-            handleLogin = <Link to="/">Logout{" "}</Link>;
+        if (sessionStorage.getItem("token")) {
+            handleLogin = <Link to="/" onClick={this.handleLogout}>Logout{" "}</Link>;
         } else {
             handleLogin = <Link to="/login">Login{" "}</Link>;
         }
-        let user = JSON.parse(sessionStorage.getItem("tokenUser"));
-        console.log(sessionStorage.token);
-        console.log(JSON.parse(sessionStorage.tokenUser).name)
+
         return (
             <div>
                 <Router>
@@ -94,19 +104,27 @@ class AppContainer extends Component {
                                 if (index === (this.state.consoles.length - 1) || index === (this.state.consoles.length - 2) || index === (this.state.consoles.length - 3) || index === (this.state.consoles.length - 4) || index === (this.state.consoles.length - 5) || index === (this.state.consoles.length - 6) || index === (this.state.consoles.length - 7))
                                     return (
 
-                                        <Link key={index} to={`/consoles/${platform.name}`}>{platform.name}{" "}</Link>
+                                        <Link key={index} to={`/consoles/${platform.name}`} >{platform.name}{" "}</Link>
 
                                     )
 
                             }
                         )}
-                        <Link to="/listOfConsoles">More Systems</Link>
+                        {/* <Link to="/listOfConsoles">More Systems</Link> */}
+                        <Link to="/addGame">Add Game</Link>
 
+                        {/* User Routes */}
                         <Route path="/login" component={() => <Login getToken={this.getToken} />} />
                         <Route path="/register" component={() => <Register />} />
+
+                        {/* Platform Routes */}
                         <Route path="/addConsole" component={() => <AddAPlatform />} />
                         <Route path="/listOfConsoles" component={() => <AllPlatforms />} />
                         <Route path="/consoles/:consoleName" component={(props) => <SpecificPlatform {...props} />} />
+
+                        {/* Game Routes */}
+                        <Route path="/addGame" component={() => <AddAGame />} />
+                        <Route path="/games/:gameID" component={(props) => <SpecificGame {...props}/>}/>
                     </nav>
                 </Router>
 

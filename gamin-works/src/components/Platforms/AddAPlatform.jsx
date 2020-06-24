@@ -51,7 +51,7 @@ class AddAPlatform extends Component {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="maker">Name:{" "}</label>
+                        <label htmlFor="maker">Maker:{" "}</label>
                         <input type="text" name="maker" id="maker" onChange={this.handleChanges} placeholder="Ex: Nintendo"/>
                     </div>
 

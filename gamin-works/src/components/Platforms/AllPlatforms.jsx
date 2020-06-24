@@ -24,7 +24,7 @@ class AllPlatforms extends Component {
     render() { 
         return ( 
             <div>
-                <h5>List of Game Consoles</h5>
+                <h3>List of Game Consoles</h3>
                 {this.state.consoles.map(
                     (console) => {
                         return (
