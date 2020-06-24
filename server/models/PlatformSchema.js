@@ -8,7 +8,6 @@ const Schema = mongoose.Schema;
 const PlatformSchema = new Schema(
     {
         name: {type: String, required: true},
-        genre: {type: String,default: "Hardware,Console"},
         maker: {type: String,required: true},
         releaseDate: {type: String,required: true},
         relatedPosts: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksPosts"}],

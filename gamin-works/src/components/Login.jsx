@@ -9,7 +9,7 @@ export default class Login extends Component {
       email: "",
       password: "",
       token: "",
-      redirect: false,
+      
     };
   }
   //handle changes in the input fields

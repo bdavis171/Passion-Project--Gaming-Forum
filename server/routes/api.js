@@ -157,7 +157,7 @@ router.get("/platform/:name", (req, res) => {
 
     PlatformCollection.findOne({ name: req.params.name }, (errors, results) => {
         errors ? res.send(errors) : res.send(results);
-    });
+    }).populate("relatedPosts").populate("games");
 });
 
 // PUT: edit one platform by name
