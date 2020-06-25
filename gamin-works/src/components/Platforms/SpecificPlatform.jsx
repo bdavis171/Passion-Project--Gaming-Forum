@@ -19,12 +19,10 @@ class SpecificPlatform extends Component {
     }
 
     componentDidUpdate = () => {
+        // if the state.name and the URL parameter do not match, reload the data
         if (!(this.state.name === this.props.match.params.consoleName)) {
             this.loadData();
         }
-
-
-
     }
 
     // load data
@@ -32,6 +30,7 @@ class SpecificPlatform extends Component {
         let response = await fetch(`/api/platform/${this.props.match.params.consoleName}`);
         let json = await response.json();
 
+        // set the json data into the correct state properties
         this.setState({
             name: json.name,
             maker: json.maker,
@@ -42,6 +41,7 @@ class SpecificPlatform extends Component {
         console.log(this.state);
     }
 
+    // render the component
     render() {
 
 

@@ -16,6 +16,7 @@ const UserCollection = require('../models/UserSchema');
 const PostCollection = require('../models/PostSchema');
 const ReplyCollection = require('../models/ReplySchema');
 const PlatformCollection = require('../models/PlatformSchema');
+const { populate } = require('../models/GameSchema');
 
 
 ///////////////////////////////////////////////////////////////
@@ -296,7 +297,7 @@ router.get("/posts/:id", (req, res) => {
     // res.send("one post viewed");
     PostCollection.findById(req.params.id, (errors, results) => {
         errors ? res.send(errors) : res.send(results);
-    });
+    }).populate({path:"relatedGame",populate:("platform")}).populate("replies").populate("relatedPlatform");
 });
 
 // PUT: edit a post

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 
 class SpecificGame extends Component {
     constructor(props) {
         super(props);
         this.state = { 
+            id:"",
             title:"",
             genre:"",
             platform:{},
@@ -23,7 +25,10 @@ class SpecificGame extends Component {
     loadData = async() => {
         let response = await fetch(`/api/games/${this.props.match.params.gameID}`);
         let json = await response.json();
+
+        // set the json data into the correct state properties
         this.setState({
+            id: json._id,
             title: json.title,
             genre: json.genre,
             platform: json.platform[0],
@@ -35,6 +40,7 @@ class SpecificGame extends Component {
         console.log(json);
     }
 
+    // render the component
     render() { 
         return ( 
             <div>
@@ -49,7 +55,22 @@ class SpecificGame extends Component {
                     <p>Release Date: {this.state.releaseDate}</p>
                 </div>
 
-                
+                <div>
+                    <h4>Posts</h4>
+                    <p><strong>Title</strong>{" "}| Author{" "}| # of Posts{" "}| Date Created</p>
+                    {this.state.relatedPosts.map(
+                        (post) => {
+                            let date = post.dateCreated.split("T")[0];
+                            return (
+                                <div key={post._id}>
+                                    <Link to={`/posts/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author}{" "}| {post.replies.length}{" "}| {date}</Link>
+                                </div>
+                            )
+                        }
+                    )}
+                </div>
+
+                <Link to={`/${this.state.title}/createPost/${this.state.id}`}>Create A New Post</Link>
             </div>
          );
     }

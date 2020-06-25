@@ -7,6 +7,8 @@ import SpecificPlatform from "./Platforms/SpecificPlatform";
 import AllPlatforms from "./Platforms/AllPlatforms";
 import AddAGame from "./Games/AddAGame";
 import SpecificGame from "./Games/SpecificGame";
+import AddAPost from "./Posts/AddAPost";
+import SpecificPost from "./Posts/SpecificPost";
 
 class AppContainer extends Component {
     constructor(props) {
@@ -83,11 +85,13 @@ class AppContainer extends Component {
     }
 
     render() {
-        let handleLogin;
+        let handleLogin, handleRegister;
         if (sessionStorage.getItem("token")) {
             handleLogin = <Link to="/" onClick={this.handleLogout}>Logout{" "}</Link>;
+            handleRegister = <Link to="/">{JSON.parse(sessionStorage.tokenUser).name}{" "}</Link>;
         } else {
             handleLogin = <Link to="/login">Login{" "}</Link>;
+            handleRegister = <Link to="/register">Register{" "}</Link>;
         }
 
         return (
@@ -96,7 +100,7 @@ class AppContainer extends Component {
                     <Link to="/"><h1>Gamin' Works</h1></Link>
                     <nav>
                         {handleLogin}
-                        <Link to="/register">Register{" "}</Link>
+                        {handleRegister}
                         <Link to="/addConsole">Add Console{" "}</Link>
                         {this.state.consoles.map(
                             (platform, index) => {
@@ -124,7 +128,11 @@ class AppContainer extends Component {
 
                         {/* Game Routes */}
                         <Route path="/addGame" component={() => <AddAGame />} />
-                        <Route path="/games/:gameID" component={(props) => <SpecificGame {...props}/>}/>
+                        <Route path="/games/:gameID" component={(props) => <SpecificGame {...props} />} />
+
+                        {/* Post Routes */}
+                        <Route path="/:gameName/createPost/:gameID" component={(props) => <AddAPost {...props} />} />
+                        <Route path="/posts/:id" component={(props) => <SpecificPost {...props}/>}/>
                     </nav>
                 </Router>
 
