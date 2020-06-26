@@ -7,9 +7,11 @@ import SpecificPlatform from "./Platforms/SpecificPlatform";
 import AllPlatforms from "./Platforms/AllPlatforms";
 import AddAGame from "./Games/AddAGame";
 import SpecificGame from "./Games/SpecificGame";
-import AddAPost from "./Posts/AddAPost";
-import SpecificPost from "./Posts/SpecificPost";
+import AddAPostForGame from "./Posts/AddAPostForGame";
+import SpecificPost from "./Posts/SpecificGamePost";
 import AddAReply from "./Replies/AddAReply";
+import AddAPostforPlatform from "./Posts/AddAPostforPlatform";
+import SearchByGameTitle from "./Games/SearchByGameTitle";
 
 class AppContainer extends Component {
     constructor(props) {
@@ -17,7 +19,8 @@ class AppContainer extends Component {
         this.state = {
             token: "",
             tokenUser: "",
-            consoles: []
+            consoles: [],
+            searchParam: ""
         };
     }
 
@@ -38,12 +41,13 @@ class AppContainer extends Component {
 
     }
 
+    // handle changes to search field
+    handleSearch = (event) => {
+        this.setState({searchParam: event.target.value});
+    }
+
     // function to get the token when a user logs in
     getToken = async (token) => {
-        // this.setState({
-        //     token: token
-        // })
-        // console.log(this.state);
         sessionStorage.setItem("token", token);
         // store the logged in users info in the state
         const response = await fetch('/users/verify', {
@@ -62,27 +66,16 @@ class AppContainer extends Component {
         };
 
         sessionStorage.setItem("tokenUser", JSON.stringify(tokenUser))
-        // console.log(json);
-
-        // this.setState({
-        //     tokenUser: {
-        //         id: json.message.id,
-        //         name: json.message.name,
-        //         email: json.message.email,
-        //         role: json.message.role
-        //     },
-        // });
-        // console.log(this.state.tokenUser);
         console.log(sessionStorage.getItem("token"));
         console.log(JSON.parse(sessionStorage.tokenUser));
-        window.location.reload();
+        window.location = "/";
 
     };
 
     // log out user
     handleLogout = (event) => {
         sessionStorage.setItem("token", "");
-        window.location.reload();
+        window.location = "/";
     }
 
     render() {
@@ -102,38 +95,47 @@ class AppContainer extends Component {
                     <nav>
                         {handleLogin}
                         {handleRegister}
-                        <Link to="/addConsole">Add Console{" "}</Link>
+                        <form>
+                            <fieldset>
+                                <input type="text" name="searchGame" id="searchGame" onChange={this.handleSearch} placeholder="Enter a Game Title"/>
+                                <Link to={`/games/searchByTitle/${this.state.searchParam}`}><button>Search</button></Link>
+                            </fieldset>
+                        </form>
+                        <Link to="/consoles/addConsole">Add Console{" "}</Link>
                         {this.state.consoles.map(
                             (platform, index) => {
 
                                 if (index === (this.state.consoles.length - 1) || index === (this.state.consoles.length - 2) || index === (this.state.consoles.length - 3) || index === (this.state.consoles.length - 4) || index === (this.state.consoles.length - 5) || index === (this.state.consoles.length - 6) || index === (this.state.consoles.length - 7))
                                     return (
 
-                                        <Link key={index} to={`/consoles/${platform.name}`} >{platform.name}{" "}</Link>
+                                        <Link key={index} to={`/consoles/view/${platform.name}`} >{platform.name}{" "}</Link>
 
                                     )
 
                             }
                         )}
-                        {/* <Link to="/listOfConsoles">More Systems</Link> */}
-                        <Link to="/addGame">Add Game</Link>
+                        {/* <Link to="/consoles/listOfConsoles">More Systems</Link> */}
+                        <Link to="/games/addGame">Add Game</Link>
 
                         {/* User Routes */}
+                        
                         <Route path="/login" component={() => <Login getToken={this.getToken} />} />
                         <Route path="/register" component={() => <Register />} />
 
                         {/* Platform Routes */}
-                        <Route path="/addConsole" component={() => <AddAPlatform />} />
-                        <Route path="/listOfConsoles" component={() => <AllPlatforms />} />
-                        <Route path="/consoles/:consoleName" component={(props) => <SpecificPlatform {...props} />} />
+                        <Route path="/consoles/addConsole" component={() => <AddAPlatform />} />
+                        <Route path="/consoles/listOfConsoles" component={() => <AllPlatforms />} />
+                        <Route path="/consoles/view/:consoleName" component={(props) => <SpecificPlatform {...props} />} />
 
                         {/* Game Routes */}
-                        <Route path="/addGame" component={() => <AddAGame />} />
-                        <Route path="/games/:gameID" component={(props) => <SpecificGame {...props} />} />
+                        <Route path="/games/addGame" component={() => <AddAGame />} />
+                        <Route path="/games/view/:gameID" component={(props) => <SpecificGame {...props} />} />
+                        <Route path="/games/searchByTitle/:searchParam" component={(props) => <SearchByGameTitle {...props}/>}/>
 
                         {/* Post Routes */}
-                        <Route path="/:gameName/createPost/:gameID" component={(props) => <AddAPost {...props} />} />
-                        <Route path="/posts/:id" component={(props) => <SpecificPost {...props}/>}/>
+                        <Route path="/posts/games/createPost/:gameID" exact component={(props) => <AddAPostForGame {...props} />} />
+                        <Route path="/posts/consoles/createPost/:platformName" exact component={(props) => <AddAPostforPlatform {...props}/>}/>
+                        <Route path="/posts/view/:id" component={(props) => <SpecificPost {...props}/>}/>
 
                         {/* Reply Routes */}
                         <Route path="/reply/:postID" component={(props) => <AddAReply {...props}/>}/>

@@ -63,14 +63,14 @@ class SpecificGame extends Component {
                             let date = post.dateCreated.split("T")[0];
                             return (
                                 <div key={post._id}>
-                                    <Link to={`/posts/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author}{" "}| {post.replies.length}{" "}| {date}</Link>
+                                    <Link to={`/posts/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author}{" "}| {post.replies.length}{" "}| {date}</Link>
                                 </div>
                             )
                         }
                     )}
                 </div>
 
-                <Link to={`/${this.state.title}/createPost/${this.state.id}`}>Create A New Post</Link>
+                <Link to={`/posts/games/createPost/${this.state.id}`}>Create A New Post</Link>
             </div>
          );
     }

@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import AppContainer from './components/AppContainer';
-import { Router, Route } from 'react-router-dom';
+
 
 class App extends Component {
   componentDidMount = () => {
-    // window.location= "/home";
+    // if(window.location.href !== "http://localhost:3000/login")
+    // window.location= "/login";
 }
 render() {
   return (
     <div className="App">
-      {/* <Router>
-  <Route path = "/home" component={() => <AppContainer/>}/>
-      </Router> */}
+     
       <AppContainer/>
     </div>
   );

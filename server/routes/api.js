@@ -63,11 +63,20 @@ router.get("/games/:id", (req, res) => {
 });
 
 // GET: view game(s) by title
-router.get("/games/searchByTitle/:title", (req, res) => {
+router.get("/games/searchByTitle/:title", async(req, res) => {
     // res.send("game(s) found by title");
-    GameCollection.find({ title: req.params.title }, (errors, results) => {
-        errors ? res.send(errors) : res.send(results);
-    });
+    let searchResults = [];
+    GameCollection.find( (errors, results) => {
+        errors ? res.send(errors) : 
+        results.forEach(
+            (game) => {
+                if(game.title.includes(req.params.title)){
+                    searchResults.push(game);
+                }
+            }
+        );
+        res.send(searchResults);
+    }).populate("platform");
 
 });
 

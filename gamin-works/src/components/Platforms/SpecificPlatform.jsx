@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
+import AddAPostforPlatform from "../Posts/AddAPostforPlatform";
 
 
 class SpecificPlatform extends Component {
@@ -10,7 +11,9 @@ class SpecificPlatform extends Component {
             maker: "",
             releaseDate: "",
             games: [],
-            relatedPosts: []
+            relatedPosts: [],
+            showGames: true,
+            showPosts: false
         }
     }
 
@@ -41,9 +44,64 @@ class SpecificPlatform extends Component {
         console.log(this.state);
     }
 
+    // handle displaying game list
+    handleDisplayGames = (event) => {
+        if (this.state.showPosts) {
+            this.setState({
+                showGames: true,
+                showPosts: false
+            });
+        }
+    }
+
+    // handle displaying post list
+    handleDisplayPosts = (event) => {
+        if (this.state.showGames) {
+            this.setState({
+                showGames: false,
+                showPosts: true
+            });
+        }
+    }
+
     // render the component
     render() {
+        let displayGames, displayPosts;
+        if (this.state.showGames) {
+            displayGames = <div>
+                <h5><strong>Games</strong></h5>
+                {this.state.games.map(
+                    game => {
+                        return (
+                            <div key={game._id}>
+                                <Link to={`/games/view/${game._id}`}>{game.title}</Link>
+                            </div>
+                        )
+                    }
+                )}
+            </div>;
 
+            displayPosts = "";
+
+        } else {
+            displayGames = "";
+
+            displayPosts = <div>
+                <h5>Posts</h5>
+                <p><strong>Title</strong>{" "}| Author{" "}| # of Posts{" "}| Date Created</p>
+                {this.state.relatedPosts.map(
+                    (post) => {
+                        let date = post.dateCreated.split("T")[0];
+                        return (
+                            <div>
+                                <Link to={`/posts/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author}{" "}| {post.replies.length}{" "}| {date}</Link>
+                            </div>
+                        )
+                    }
+                )}
+            </div>
+
+        }
 
 
         return (
@@ -57,18 +115,12 @@ class SpecificPlatform extends Component {
                     <p>Release Date: {this.state.releaseDate}</p>
                 </div>
 
-                <div>
-                    <h5><strong>Games</strong></h5>
-                    {this.state.games.map(
-                        game => {
-                            return (
-                                <div key={game._id}>
-                                    <Link to={`/games/${game._id}`}>{game.title}</Link>
-                                </div>
-                            )
-                        }
-                    )}
-                </div>
+                <button onClick={this.handleDisplayGames}>Games</button>
+                <button onClick={this.handleDisplayPosts}>Posts</button>
+                {displayPosts}
+                {displayGames}
+
+                <Link to={`/posts/consoles/createPost/${this.state.name}`}>Create a Post</Link>
 
             </div>
         );
