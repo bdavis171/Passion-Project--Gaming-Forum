@@ -9,6 +9,7 @@ import AddAGame from "./Games/AddAGame";
 import SpecificGame from "./Games/SpecificGame";
 import AddAPost from "./Posts/AddAPost";
 import SpecificPost from "./Posts/SpecificPost";
+import AddAReply from "./Replies/AddAReply";
 
 class AppContainer extends Component {
     constructor(props) {
@@ -133,6 +134,9 @@ class AppContainer extends Component {
                         {/* Post Routes */}
                         <Route path="/:gameName/createPost/:gameID" component={(props) => <AddAPost {...props} />} />
                         <Route path="/posts/:id" component={(props) => <SpecificPost {...props}/>}/>
+
+                        {/* Reply Routes */}
+                        <Route path="/reply/:postID" component={(props) => <AddAReply {...props}/>}/>
                     </nav>
                 </Router>
 
