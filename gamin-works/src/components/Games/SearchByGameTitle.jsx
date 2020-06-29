@@ -14,6 +14,18 @@ class SearchByGameTitle extends Component {
         this.loadData();
     }
 
+    componentDidUpdate = () => {
+        if(!this.state.searchResults[0]){
+
+        
+        if(!this.state.searchResults[0].title.includes(this.props.match.params.searchParam)){
+            this.loadData();
+        } else {
+            window.alert("Results not found");
+        }
+    }
+    }
+ 
     // load search data
     loadData = async () => {
         let response = await fetch(`/api/games/searchByTitle/${this.props.match.params.searchParam}`);

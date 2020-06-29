@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-class SpecificGamePost extends Component {
+
+class SpecificPlatformPost extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id:"",
+            id: "",
             title: "",
             body: "",
             replies: [],
-            relatedGame: {},
-            platform: {},
+            relatedPlatform: {},
             author: "",
             dateCreated: ""
-
         }
     }
 
@@ -30,12 +29,11 @@ class SpecificGamePost extends Component {
         let date = json.dateCreated.split("T")[0];
         // store the data into the state
         this.setState({
-            id:json._id,
+            id: json._id,
             title: json.title,
             body: json.body,
             replies: json.replies,
-            relatedGame: json.relatedGame[0],
-            platform: json.relatedGame[0].platform[0],
+            relatedPlatform: json.relatedPlatform[0],
             author: json.author,
             dateCreated: date
         });
@@ -44,16 +42,15 @@ class SpecificGamePost extends Component {
     }
 
     render() {
-       
+
         return (
             <div>
 
                 <div>
                     <h3>{this.state.title}</h3>
-                    <h4>{this.state.relatedGame.title}</h4>
-                    <h5>{this.state.platform.name}</h5>
+                    <h4>{this.state.relatedPlatform.name}</h4>
                 </div>
-            <Link to = {`/reply/${this.state.id}`}>Reply to this post</Link>
+                <Link to={`/reply/${this.state.id}`}>Reply to this post</Link>
 
                 <div>
                     <div>
@@ -81,7 +78,10 @@ class SpecificGamePost extends Component {
 
             </div>
         );
+
     }
 }
 
-export default SpecificGamePost;
+
+
+export default SpecificPlatformPost;

@@ -8,10 +8,12 @@ import AllPlatforms from "./Platforms/AllPlatforms";
 import AddAGame from "./Games/AddAGame";
 import SpecificGame from "./Games/SpecificGame";
 import AddAPostForGame from "./Posts/AddAPostForGame";
-import SpecificPost from "./Posts/SpecificGamePost";
+import SpecificGamePost from "./Posts/SpecificGamePost";
 import AddAReply from "./Replies/AddAReply";
 import AddAPostforPlatform from "./Posts/AddAPostforPlatform";
 import SearchByGameTitle from "./Games/SearchByGameTitle";
+import SpecificPlatformPost from "./Posts/SpecificPlatformPost";
+import MyProfile from "./MyProfile";
 
 class AppContainer extends Component {
     constructor(props) {
@@ -82,7 +84,7 @@ class AppContainer extends Component {
         let handleLogin, handleRegister;
         if (sessionStorage.getItem("token")) {
             handleLogin = <Link to="/" onClick={this.handleLogout}>Logout{" "}</Link>;
-            handleRegister = <Link to="/">{JSON.parse(sessionStorage.tokenUser).name}{" "}</Link>;
+            handleRegister = <Link to={`/users/myProfile`}>{JSON.parse(sessionStorage.tokenUser).name}{" "}</Link>;
         } else {
             handleLogin = <Link to="/login">Login{" "}</Link>;
             handleRegister = <Link to="/register">Register{" "}</Link>;
@@ -118,7 +120,7 @@ class AppContainer extends Component {
                         <Link to="/games/addGame">Add Game</Link>
 
                         {/* User Routes */}
-                        
+                        <Route path="/users/myProfile" component = {(props) => <MyProfile {...props}/>}/>
                         <Route path="/login" component={() => <Login getToken={this.getToken} />} />
                         <Route path="/register" component={() => <Register />} />
 
@@ -135,7 +137,8 @@ class AppContainer extends Component {
                         {/* Post Routes */}
                         <Route path="/posts/games/createPost/:gameID" exact component={(props) => <AddAPostForGame {...props} />} />
                         <Route path="/posts/consoles/createPost/:platformName" exact component={(props) => <AddAPostforPlatform {...props}/>}/>
-                        <Route path="/posts/view/:id" component={(props) => <SpecificPost {...props}/>}/>
+                        <Route path="/posts/games/view/:id" component={(props) => <SpecificGamePost {...props}/>}/>
+                        <Route path="/posts/consoles/view/:id" component={(props) => <SpecificPlatformPost {...props}/>}/>
 
                         {/* Reply Routes */}
                         <Route path="/reply/:postID" component={(props) => <AddAReply {...props}/>}/>

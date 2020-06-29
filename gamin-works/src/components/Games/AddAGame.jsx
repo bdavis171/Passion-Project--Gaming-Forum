@@ -63,13 +63,13 @@ class AddAGame extends Component {
                 <form action="">
                     <div className="form-group">
                         <label htmlFor="title">Title:{" "}</label>
-                        <input type="text" name="title" id="title" onChange={this.handleChanges}/>
+                        <input type="text" name="title" id="title" onChange={this.handleChanges} placeholder="Ex: Megaman X"/>
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="platform">Platform:{" "}</label>
                         <select name="platform" id="platform" onChange={this.handleChanges}>
-                            <option value="">--</option>
+                            <option value="">Choose a Platform</option>
                             {this.state.consoles.map(
                                 (platform) => {
                                     return (
@@ -82,22 +82,22 @@ class AddAGame extends Component {
 
                     <div className="form-group">
                         <label htmlFor="developer">Developer:{" "}</label>
-                        <input type="text" name="developer" id="developer" onChange={this.handleChanges}/>
+                        <input type="text" name="developer" id="developer" onChange={this.handleChanges} placeholder="Ex: Monolith Soft"/>
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="publisher">Publisher:{" "}</label>
-                        <input type="text" name="publisher" id="publisher" onChange={this.handleChanges}/>
+                        <input type="text" name="publisher" id="publisher" onChange={this.handleChanges} placeholder="Ex: Square Enix"/>
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="genre">Genre:{" "}</label>
-                        <input type="text" name="genre" id="genre" onChange={this.handleChanges}/>
+                        <input type="text" name="genre" id="genre" onChange={this.handleChanges} placeholder="Ex: Action Adventure" />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="releaseDate">Release Date:{" "}</label>
-                        <input type="text" name="releaseDate" id="releaseDate" onChange={this.handleChanges}/>
+                        <input type="text" name="releaseDate" id="releaseDate" onChange={this.handleChanges} placeholder="Ex: March 14, 2008"/>
                     </div>
 
                     <div className="form-group">
