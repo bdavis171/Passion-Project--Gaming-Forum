@@ -9,6 +9,7 @@ const user = require('./routes/users');
 const api = require('./routes/api');
 app.use('/api',api);
 app.use('/users',user);
+app.use('/uploads',express.static('uploads'));
 
 // CONNECTING TO A MONGO DATABASE
 // reference the mongoose module

@@ -59,6 +59,7 @@ class SpecificPlatformPost extends Component {
                     <div>
                         <p>{this.state.body}</p>
                     </div>
+                    <br/>
                 </div>
 
                 <div>
@@ -69,6 +70,7 @@ class SpecificPlatformPost extends Component {
                                 <div key={reply._id}>
                                     <p>{reply.author}{" "}{date}</p>
                                     <p>{reply.body}</p>
+                                    <hr/>
                                 </div>
                             )
                         }

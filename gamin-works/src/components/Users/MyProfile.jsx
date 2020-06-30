@@ -118,7 +118,7 @@ class MyProfile extends Component {
             <div>
                 <div id="profile-section">
                     <img src={this.state.profileImg} alt="profile image" width="200px"/>
-                    <button>Edit Profile</button>
+                    <Link to ={`/users/edit/${JSON.parse(sessionStorage.tokenUser).id}`}> <button>Edit Profile</button> </Link>
                     <div id="name-section">
                         <h5>Name:</h5>
                         <p>{this.state.name}</p>

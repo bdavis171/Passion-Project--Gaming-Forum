@@ -52,7 +52,7 @@ router.post("/login", (req, res) => {
     // res.send(user has logged in);
     UserCollection.findOne({ email: req.body.email }).then((user) => {
         if (!user) {
-            res.status(404).json({ error: "Email/Password is incorrect" });
+            res.status(404).json({ error: "Incorrect login credentials" });
         } else {
             bcrypt.compare(req.body.password, user.password).then((isMatched) => {
                 if (isMatched) {
@@ -68,7 +68,7 @@ router.post("/login", (req, res) => {
                             : res.json({ token: `bearer ${token}` });
                     });
                 } else {
-                    res.status(500).json({ error: "Email/Password is incorrect" });
+                    res.status(500).json({ error: "Incorrect login credentials" });
                 }
             });
         }

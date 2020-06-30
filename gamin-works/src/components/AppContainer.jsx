@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import Login from "./Login";
-import Register from "./Register";
+import Login from "./Users/Login";
+import Register from "./Users/Register";
 import AddAPlatform from "./Platforms/AddAPlatform";
 import SpecificPlatform from "./Platforms/SpecificPlatform";
 import AllPlatforms from "./Platforms/AllPlatforms";
@@ -13,7 +13,8 @@ import AddAReply from "./Replies/AddAReply";
 import AddAPostforPlatform from "./Posts/AddAPostforPlatform";
 import SearchByGameTitle from "./Games/SearchByGameTitle";
 import SpecificPlatformPost from "./Posts/SpecificPlatformPost";
-import MyProfile from "./MyProfile";
+import MyProfile from "./Users/MyProfile";
+import EditProfile from "./Users/EditProfile";
 
 class AppContainer extends Component {
     constructor(props) {
@@ -45,7 +46,7 @@ class AppContainer extends Component {
 
     // handle changes to search field
     handleSearch = (event) => {
-        this.setState({searchParam: event.target.value});
+        this.setState({ searchParam: event.target.value });
     }
 
     // function to get the token when a user logs in
@@ -99,30 +100,38 @@ class AppContainer extends Component {
                         {handleRegister}
                         <form>
                             <fieldset>
-                                <input type="text" name="searchGame" id="searchGame" onChange={this.handleSearch} placeholder="Enter a Game Title"/>
+                                <input type="text" name="searchGame" id="searchGame" onChange={this.handleSearch} placeholder="Enter a Game Title" />
                                 <Link to={`/games/searchByTitle/${this.state.searchParam}`}><button>Search</button></Link>
                             </fieldset>
                         </form>
-                        
-                        {this.state.consoles.map(
-                            (platform, index) => {
 
-                                if (index === (this.state.consoles.length - 1) || index === (this.state.consoles.length - 2) || index === (this.state.consoles.length - 3) || index === (this.state.consoles.length - 4) || index === (this.state.consoles.length - 5) || index === (this.state.consoles.length - 6) || index === (this.state.consoles.length - 7))
+                        <div className="dropdown">
+                            <button className="dropbtn">Select a Console</button>
+                            <div className="dropdown-content">
+                                  {this.state.consoles.map(
+                                (platform, index) => {
+
+
                                     return (
 
-                                        <Link key={index} to={`/consoles/view/${platform.name}`} >{platform.name}{" "}</Link>
+                                        <Link className="links" key={index} to={`/consoles/view/${platform.name}`} >{platform.name}{" "}</Link>
 
                                     )
 
-                            }
-                        )}
+                                }
+                            )}
+                            </div>
+                          
+                        </div>
+
                         {/* <Link to="/consoles/listOfConsoles">More Systems</Link> */}
-                        
+                        {/* <Link key={index} to={`/consoles/view/${platform.name}`} >{platform.name}{" "}</Link> */}
 
                         {/* User Routes */}
-                        <Route path="/users/myProfile" component = {(props) => <MyProfile {...props}/>}/>
+                        <Route path="/users/myProfile" component={(props) => <MyProfile {...props} />} />
                         <Route path="/login" component={() => <Login getToken={this.getToken} />} />
                         <Route path="/register" component={() => <Register />} />
+                        <Route path="/users/edit/:id" component={(props) => <EditProfile {...props}/>}/>
 
                         {/* Platform Routes */}
                         <Route path="/consoles/addConsole" component={() => <AddAPlatform />} />
@@ -132,16 +141,16 @@ class AppContainer extends Component {
                         {/* Game Routes */}
                         <Route path="/games/addGame" component={() => <AddAGame />} />
                         <Route path="/games/view/:gameID" component={(props) => <SpecificGame {...props} />} />
-                        <Route path="/games/searchByTitle/:searchParam" component={(props) => <SearchByGameTitle {...props}/>}/>
+                        <Route path="/games/searchByTitle/:searchParam" component={(props) => <SearchByGameTitle {...props} />} />
 
                         {/* Post Routes */}
                         <Route path="/posts/games/createPost/:gameID" exact component={(props) => <AddAPostForGame {...props} />} />
-                        <Route path="/posts/consoles/createPost/:platformName" exact component={(props) => <AddAPostforPlatform {...props}/>}/>
-                        <Route path="/posts/games/view/:id" component={(props) => <SpecificGamePost {...props}/>}/>
-                        <Route path="/posts/consoles/view/:id" component={(props) => <SpecificPlatformPost {...props}/>}/>
+                        <Route path="/posts/consoles/createPost/:platformName" exact component={(props) => <AddAPostforPlatform {...props} />} />
+                        <Route path="/posts/games/view/:id" component={(props) => <SpecificGamePost {...props} />} />
+                        <Route path="/posts/consoles/view/:id" component={(props) => <SpecificPlatformPost {...props} />} />
 
                         {/* Reply Routes */}
-                        <Route path="/reply/:postID" component={(props) => <AddAReply {...props}/>}/>
+                        <Route path="/reply/:postID" component={(props) => <AddAReply {...props} />} />
                     </nav>
                 </Router>
 
