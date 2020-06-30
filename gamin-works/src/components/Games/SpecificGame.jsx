@@ -54,7 +54,7 @@ class SpecificGame extends Component {
                     <p>Publisher: {this.state.publisher}</p>
                     <p>Release Date: {this.state.releaseDate}</p>
                 </div>
-
+                    <button>Add to Collection</button>
                 <div>
                     <h4>Posts</h4>
                     <p><strong>Title</strong>{" "}| Author{" "}| # of Posts{" "}| Date Created</p>

@@ -103,7 +103,7 @@ class AppContainer extends Component {
                                 <Link to={`/games/searchByTitle/${this.state.searchParam}`}><button>Search</button></Link>
                             </fieldset>
                         </form>
-                        <Link to="/consoles/addConsole">Add Console{" "}</Link>
+                        
                         {this.state.consoles.map(
                             (platform, index) => {
 
@@ -117,7 +117,7 @@ class AppContainer extends Component {
                             }
                         )}
                         {/* <Link to="/consoles/listOfConsoles">More Systems</Link> */}
-                        <Link to="/games/addGame">Add Game</Link>
+                        
 
                         {/* User Routes */}
                         <Route path="/users/myProfile" component = {(props) => <MyProfile {...props}/>}/>
