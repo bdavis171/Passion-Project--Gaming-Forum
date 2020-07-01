@@ -41,7 +41,13 @@ class SpecificGame extends Component {
     }
 
     // render the component
-    render() { 
+    render() {
+        let editGame;
+        if(JSON.parse(sessionStorage.tokenUser).role === "Admin") {
+            editGame = <Link to= {`/games/edit/${this.state.id}`}>Edit Game</Link>
+        } else {
+            editGame = "";
+        }
         return ( 
             <div>
                 <h3>{this.state.title}</h3>
@@ -55,6 +61,7 @@ class SpecificGame extends Component {
                     <p>Release Date: {this.state.releaseDate}</p>
                 </div>
                     <button>Add to Collection</button>
+                    {editGame}
                 <div>
                     <h4>Posts</h4>
                     <p><strong>Title</strong>{" "}| Author{" "}| # of Posts{" "}| Date Created</p>

@@ -147,7 +147,7 @@ class AppContainer extends Component {
                         <Route path="/games/addGame" component={() => <AddAGame />} />
                         <Route path="/games/view/:gameID" component={(props) => <SpecificGame {...props} />} />
                         <Route path="/games/searchByTitle/:searchParam" component={(props) => <SearchByGameTitle {...props} />} />
-                        <Route path="/game/edit/:id" component ={(props) => <EditGame {...props}/>}/>
+                        <Route path="/games/edit/:id" component ={(props) => <EditGame {...props}/>}/>
 
                         {/* Post Routes */}
                         <Route path="/posts/games/createPost/:gameID" exact component={(props) => <AddAPostForGame {...props} />} />
