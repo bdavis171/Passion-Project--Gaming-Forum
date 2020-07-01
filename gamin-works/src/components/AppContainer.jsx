@@ -108,20 +108,22 @@ class AppContainer extends Component {
                         <div className="dropdown">
                             <button className="dropbtn">Select a Console</button>
                             <div className="dropdown-content">
-                                  {this.state.consoles.map(
-                                (platform, index) => {
+                                {this.state.consoles.map(
+                                    (platform, index) => {
 
 
-                                    return (
+                                        return (
+                                            <div>
+                                                <Link className="links" key={index} to={`/consoles/view/${platform.name}`} >{platform.name}{" "}</Link>
+                                            </div>
 
-                                        <Link className="links" key={index} to={`/consoles/view/${platform.name}`} >{platform.name}{" "}</Link>
 
-                                    )
+                                        )
 
-                                }
-                            )}
+                                    }
+                                )}
                             </div>
-                          
+
                         </div>
 
                         {/* <Link to="/consoles/listOfConsoles">More Systems</Link> */}
@@ -131,7 +133,7 @@ class AppContainer extends Component {
                         <Route path="/users/myProfile" component={(props) => <MyProfile {...props} />} />
                         <Route path="/login" component={() => <Login getToken={this.getToken} />} />
                         <Route path="/register" component={() => <Register />} />
-                        <Route path="/users/edit/:id" component={(props) => <EditProfile {...props}/>}/>
+                        <Route path="/users/edit/:id" component={(props) => <EditProfile {...props} />} />
 
                         {/* Platform Routes */}
                         <Route path="/consoles/addConsole" component={() => <AddAPlatform />} />
@@ -150,7 +152,7 @@ class AppContainer extends Component {
                         <Route path="/posts/consoles/view/:id" component={(props) => <SpecificPlatformPost {...props} />} />
 
                         {/* Reply Routes */}
-                        <Route path="/reply/:postID" component={(props) => <AddAReply {...props} />} />
+                        <Route path="/reply/add/:postID" component={(props) => <AddAReply {...props} />} />
                     </nav>
                 </Router>
 

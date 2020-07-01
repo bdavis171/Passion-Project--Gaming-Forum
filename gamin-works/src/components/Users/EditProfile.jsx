@@ -20,7 +20,7 @@ class EditProfile extends Component {
 
     // load user data
     loadData = async () => {
-        let response = await fetch(`/users/${JSON.parse(sessionStorage.tokenUser).email}`);
+        let response = await fetch(`/users/${JSON.parse(sessionStorage.tokenUser).id}`);
         let json = await response.json();
 
         this.setState({
@@ -72,6 +72,7 @@ class EditProfile extends Component {
         let json = await response.json();
 
         let tokenUser = {
+            id: json._id,
             name: json.name,
             email: json.email,
             role: json.role
@@ -80,7 +81,7 @@ class EditProfile extends Component {
         //sanity
         console.log(json);
         // sessionStorage.token = "";
-        window.location = "/myProfile";
+        window.location = "/users/myProfile";
     }
 
     render() {

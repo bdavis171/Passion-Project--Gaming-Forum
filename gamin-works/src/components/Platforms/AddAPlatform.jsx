@@ -38,6 +38,8 @@ class AddAPlatform extends Component {
 
         console.log(json);
 
+        window.location = `/consoles/view/${json.name}`;
+
     }
 
     render() { 
@@ -57,7 +59,7 @@ class AddAPlatform extends Component {
 
                     <div className="form-group">
                         <label htmlFor="releaseDate">Release Date:{" "}</label>
-                        <input type="text" name="releaseDate" id="releaseDate" onChange={this.handleChanges} placeholder="Ex: January 1, 2020"/>
+                        <input type="date" name="releaseDate" id="releaseDate" onChange={this.handleChanges} placeholder="Ex: January 1, 2020"/>
                     </div> 
                     
                     <div className="form-group">

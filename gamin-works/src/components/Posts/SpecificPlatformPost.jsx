@@ -50,7 +50,7 @@ class SpecificPlatformPost extends Component {
                     <h3>{this.state.title}</h3>
                     <h4>{this.state.relatedPlatform.name}</h4>
                 </div>
-                <Link to={`/reply/${this.state.id}`}>Reply to this post</Link>
+                <Link to={`/reply/add/${this.state.id}`}>Reply to this post</Link>
 
                 <div>
                     <div>
@@ -66,10 +66,13 @@ class SpecificPlatformPost extends Component {
                     {this.state.replies.map(
                         (reply) => {
                             let date = reply.dateCreated.split("T")[0];
+                            let editLink;
+                            
                             return (
                                 <div key={reply._id}>
                                     <p>{reply.author}{" "}{date}</p>
                                     <p>{reply.body}</p>
+                                    <Link to={`/reply/edit/${reply._id}`}>edit</Link>
                                     <hr/>
                                 </div>
                             )

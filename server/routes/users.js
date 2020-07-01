@@ -75,9 +75,9 @@ router.post("/login", (req, res) => {
     });
 });
 
-// GET: Find one user by email
-router.get("/:email", (req, res) => {
-    UserCollection.findOne({ email: req.params.email }, (errors, results) => {
+// GET: Find one user
+router.get("/:id", (req, res) => {
+    UserCollection.findById(req.params.id, (errors, results) => {
         errors ? res.status(404).json({ error: "User not found." }) : res.send(results);
     }).populate("gamesOwned").populate({path:"posts",populate:{path:"relatedGame",populate:"platform"}}).populate({path:"replies",populate:"relatedPost"}).populate({path:"posts",populate:"relatedPlatform"});
 });
@@ -121,9 +121,9 @@ router.put("/:id", (req, res) => {
 });
 
 // DELETE: delete user
-router.delete("/:email", (req, res) => {
+router.delete("/:id", (req, res) => {
     // find the user
-    UserCollection.findOne({ email: req.params.email }, (errors, results) => {
+    UserCollection.findById(req.params.id, (errors, results) => {
         errors ? res.send(errors)
             :
             results.posts.forEach(post => {
@@ -145,8 +145,8 @@ router.delete("/:email", (req, res) => {
     })
 
     // delete the user
-    UserCollection.findOneAndDelete(
-        { email: req.params.email }, (error, results) => {
+    UserCollection.findByIdAndDelete(
+        req.params.id, (error, results) => {
             error ? res.send(error) : res.send(results);
         }
     );
