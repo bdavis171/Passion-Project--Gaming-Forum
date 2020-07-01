@@ -7,8 +7,7 @@ const Schema = mongoose.Schema;
 // Reply Schema
 const ReplySchema = new Schema(
     {
-        author: String,
-        authorEmail: String,
+        author: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksUsers"}],
         body: {type:String,required:true},
         dateCreated: {type: Date, default:Date.now},
         relatedPost: [{type: mongoose.Schema.Types.ObjectId,ref:"gaminWorksPosts"}]

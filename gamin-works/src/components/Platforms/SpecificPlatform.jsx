@@ -94,7 +94,7 @@ class SpecificPlatform extends Component {
                         let date = post.dateCreated.split("T")[0];
                         return (
                             <div>
-                                <Link to={`/posts/consoles/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
+                                <Link to={`/posts/consoles/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
                             </div>
                         )
                     }

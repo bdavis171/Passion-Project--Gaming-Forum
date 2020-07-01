@@ -11,7 +11,7 @@ class SpecificPlatformPost extends Component {
             body: "",
             replies: [],
             relatedPlatform: {},
-            author: "",
+            author: {},
             dateCreated: ""
         }
     }
@@ -34,7 +34,7 @@ class SpecificPlatformPost extends Component {
             body: json.body,
             replies: json.replies,
             relatedPlatform: json.relatedPlatform[0],
-            author: json.author,
+            author: json.author[0],
             dateCreated: date
         });
         console.log(this.state);
@@ -54,7 +54,7 @@ class SpecificPlatformPost extends Component {
 
                 <div>
                     <div>
-                        <p>{this.state.author}{" "}{this.state.dateCreated}</p>
+                        <p>{this.state.author.name}{" "}{this.state.dateCreated}</p>
                     </div>
                     <div>
                         <p>{this.state.body}</p>
@@ -71,7 +71,7 @@ class SpecificPlatformPost extends Component {
                             
                             return (
                                 <div key={reply._id}>
-                                    <p>{reply.author}{" "}{date}</p>
+                                    <p>{reply.author[0].name}{" "}{date}</p>
                                     <p>{reply.body}</p>
                                     <Link to={`/reply/edit/${reply._id}`}>edit</Link>
                                     <hr/>

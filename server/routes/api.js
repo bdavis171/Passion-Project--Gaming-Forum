@@ -59,7 +59,7 @@ router.get("/games/:id", (req, res) => {
     // res.send("one game viewed");
     GameCollection.findById(req.params.id, (errors, results) => {
         errors ? res.send(errors) : res.send(results);
-    }).populate("platform").populate("relatedPosts");
+    }).populate("platform").populate({path:"relatedPosts",populate:"author"});
 });
 
 // GET: view game(s) by title
@@ -167,7 +167,7 @@ router.get("/platform/:name", (req, res) => {
 
     PlatformCollection.findOne({ name: req.params.name }, (errors, results) => {
         errors ? res.send(errors) : res.send(results);
-    }).populate("relatedPosts").populate("games");
+    }).populate({path:"relatedPosts",populate:"author"}).populate("games");
 });
 
 // PUT: edit one platform by name
@@ -247,6 +247,7 @@ router.post("/posts/game/:gameID", authenticateToken, async (req, res) => {
                             game.relatedPosts.push(post._id);
                             post.relatedGame.push(game._id);
                             currentUser.posts.push(post._id);
+                            post.author.push(currentUser._id);
                             game.save();
                             post.save();
                             currentUser.save();
@@ -281,6 +282,7 @@ router.post("/posts/platform/:platformName", authenticateToken, async (req, res)
                             platform.relatedPosts.push(post._id);
                             post.relatedPlatform.push(platform._id);
                             currentUser.posts.push(post._id);
+                            post.author.push(currentUser._id);
                             platform.save();
                             post.save();
                             currentUser.save();
@@ -306,7 +308,7 @@ router.get("/posts/:id", (req, res) => {
     // res.send("one post viewed");
     PostCollection.findById(req.params.id, (errors, results) => {
         errors ? res.send(errors) : res.send(results);
-    }).populate({path:"relatedGame",populate:("platform")}).populate("replies").populate("relatedPlatform");
+    }).populate({path:"relatedGame",populate:("platform")}).populate({path:"replies",populate:"author"}).populate("relatedPlatform").populate("author");
 });
 
 // PUT: edit a post
@@ -386,6 +388,7 @@ router.post("/reply/:postID", authenticateToken, async (req, res) => {
                             reply.relatedPost.push(post._id);
                             post.replies.push(reply._id);
                             currentUser.replies.push(reply._id);
+                            reply.author.push(currentUser._id);
                             reply.save();
                             post.save();
                             currentUser.save();

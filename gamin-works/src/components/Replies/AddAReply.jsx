@@ -18,9 +18,7 @@ class AddAReply extends Component {
     handleSubmission = async(event) => {
         event.preventDefault();
         let newReply = {
-            body: this.state.body,
-            author: JSON.parse(sessionStorage.tokenUser).name,
-            authorEmail: JSON.parse(sessionStorage.tokenUser).email
+            body: this.state.body
         };
 
         let response = await fetch(`/api/reply/${this.props.match.params.postID}`,{

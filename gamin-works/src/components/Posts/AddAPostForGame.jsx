@@ -38,9 +38,7 @@ class AddAPostForGame extends Component {
         event.preventDefault();
         let newPost = {
             title: this.state.title,
-            body: this.state.body,
-            author: JSON.parse(sessionStorage.tokenUser).name,
-            authorEmail: JSON.parse(sessionStorage.tokenUser).email
+            body: this.state.body
         };
 
         let response = await fetch(`/api/posts/game/${this.props.match.params.gameID}`, {

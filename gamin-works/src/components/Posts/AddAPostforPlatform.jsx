@@ -36,9 +36,7 @@ class AddAPostforPlatform extends Component {
         event.preventDefault();
         let newPost = {
             title: this.state.title,
-            body: this.state.body,
-            author: JSON.parse(sessionStorage.tokenUser).name,
-            authorEmail: JSON.parse(sessionStorage.tokenUser).email
+            body: this.state.body
         };
 
         let response = await fetch(`/api/posts/platform/${this.props.match.params.platformName}`, {

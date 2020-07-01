@@ -11,7 +11,7 @@ class SpecificGamePost extends Component {
             replies: [],
             relatedGame: {},
             platform: {},
-            author: "",
+            author: {},
             dateCreated: ""
 
         }
@@ -36,7 +36,7 @@ class SpecificGamePost extends Component {
             replies: json.replies,
             relatedGame: json.relatedGame[0],
             platform: json.relatedGame[0].platform[0],
-            author: json.author,
+            author: json.author[0],
             dateCreated: date
         });
         console.log(this.state);
@@ -57,7 +57,7 @@ class SpecificGamePost extends Component {
 
                 <div>
                     <div>
-                        <p>{this.state.author}{" "}{this.state.dateCreated}</p>
+                        <p>{this.state.author.name}{" "}{this.state.dateCreated}</p>
                     </div>
                     <div>
                         <p>{this.state.body}</p>
@@ -70,7 +70,7 @@ class SpecificGamePost extends Component {
                             let date = reply.dateCreated.split("T")[0];
                             return (
                                 <div key={reply._id}>
-                                    <p>{reply.author}{" "}{date}</p>
+                                    <p>{reply.author[0].name}{" "}{date}</p>
                                     <p>{reply.body}</p>
                                 </div>
                             )

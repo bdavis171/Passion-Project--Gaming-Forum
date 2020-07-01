@@ -65,7 +65,7 @@ class MyProfile extends Component {
                                 postLink = <Link to={`/posts/games/view/${post._id}`}><strong>{post.title}</strong>{" "} {date}</Link>
                             } else if (post.relatedPlatform[0]) {
                                 relatedTopic = <Link to={`/consoles/view/${post.relatedPlatform[0].name}`}>{post.relatedPlatform[0].name}</Link>
-                                postLink = <Link to={`/posts/consoles/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author}{" "}| {post.replies.length}{" "}| {date}</Link>
+                                postLink = <Link to={`/posts/consoles/view/${post._id}`}><strong>{post.title}</strong>{" "} {date}</Link>
                             }
                             return (
                                 <div key={post._id}>
