@@ -6,7 +6,8 @@ class EditPost extends Component {
         super(props);
         this.state = { 
             title: "",
-            body: ""
+            body: "",
+            author:{}
          }
     }
 
@@ -26,7 +27,8 @@ class EditPost extends Component {
         let json = await response.json();
         this.setState({ 
             title: json.title,
-            body: json.body
+            body: json.body,
+            author: json.author[0]
          });
     }
 
@@ -79,22 +81,26 @@ class EditPost extends Component {
     }
 
     render() { 
+        let canEdit = false;
+        if (JSON.parse(sessionStorage.tokenUser).role === "Admin" && JSON.parse(sessionStorage.tokenUser).id !== this.state.author._id){
+            canEdit = true
+        }
         return ( 
             <div>
                 <h4>Edit Post</h4>
                 <form action="">
                     <div className="form-group">
                         <label htmlFor="title">Title: {" "}</label>
-                        <input type="text" name="title" id="title" onChange={this.handleChanges} value={this.state.title}/>
+                        <input type="text" name="title" id="title" onChange={this.handleChanges} value={this.state.title} disabled = {canEdit}/>
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="body">Body: {" "}</label>
-                        <textarea name="body" id="body" onChange={this.handleChanges} cols="30" rows="10" value={this.state.body}></textarea>
+                        <textarea name="body" id="body" onChange={this.handleChanges} cols="30" rows="10" value={this.state.body} disabled = {canEdit}></textarea>
                     </div>
 
                     <div className="form-group">
-                        <button type="submit" onClick={this.handleSubmission}>Submit</button>
+                        <button type="submit" onClick={this.handleSubmission} disabled = {canEdit}>Update</button>
                     </div>
                 </form>
                 <button onClick={this.handleDelete}>Delete</button>

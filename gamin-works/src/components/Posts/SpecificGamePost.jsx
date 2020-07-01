@@ -44,7 +44,12 @@ class SpecificGamePost extends Component {
     }
 
     render() {
-       
+        let editPost;
+        if(JSON.parse(sessionStorage.tokenUser).id === this.state.author._id || JSON.parse(sessionStorage.tokenUser).role === "Admin"){
+            editPost = <Link to = {`/posts/general/edit/${this.state.id}`}>Edit Post</Link>
+        } else {
+            editPost = "";
+        }
         return (
             <div>
 
@@ -53,7 +58,7 @@ class SpecificGamePost extends Component {
                     <h4>{this.state.relatedGame.title}</h4>
                     <h5>{this.state.platform.name}</h5>
                 </div>
-            <Link to = {`/reply/${this.state.id}`}>Reply to this post</Link>
+            <Link to = {`/reply/add/${this.state.id}`}>Reply to this post</Link>
 
                 <div>
                     <div>
@@ -61,17 +66,27 @@ class SpecificGamePost extends Component {
                     </div>
                     <div>
                         <p>{this.state.body}</p>
+                        {editPost}
                     </div>
+                    <br/>
                 </div>
 
                 <div>
-                    {this.state.replies.map(
+                {this.state.replies.map(
                         (reply) => {
                             let date = reply.dateCreated.split("T")[0];
+                            let editLink;
+                            if(JSON.parse(sessionStorage.tokenUser).id === reply.author[0]._id || JSON.parse(sessionStorage.tokenUser).role === "Admin"){
+                                editLink = <Link to={`/reply/edit/${reply._id}`}>edit</Link>;
+                            } else {
+                                editLink = "";
+                            }
                             return (
                                 <div key={reply._id}>
                                     <p>{reply.author[0].name}{" "}{date}</p>
                                     <p>{reply.body}</p>
+                                    {editLink}
+                                    <hr/>
                                 </div>
                             )
                         }

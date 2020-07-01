@@ -5,7 +5,8 @@ class EditReply extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            body: ""
+            body: "",
+            author: {}
         }
     }
 
@@ -17,7 +18,7 @@ class EditReply extends Component {
     loadData = async () => {
         let response = await fetch(`/api/reply/${this.props.match.params.id}`);
         let json = await response.json();
-        this.setState({ body: json.body });
+        this.setState({ body: json.body, author: json.author[0] });
     }
 
     // handle changes to fields
@@ -68,17 +69,21 @@ class EditReply extends Component {
     }
 
     render() {
+        let canEdit = false;
+        if (JSON.parse(sessionStorage.tokenUser).role === "Admin" && JSON.parse(sessionStorage.tokenUser).id !== this.state.author._id){
+            canEdit = true
+        }
         return (
             <div>
                 <h4>Edit Reply</h4>
                 <form>
                     <div className="form-group">
                         <label htmlFor="body">Enter your message</label>
-                        <textarea name="body" id="body" onChange={this.handleChanges} value={this.state.body} cols="30" rows="10"></textarea>
+                        <textarea name="body" id="body" onChange={this.handleChanges} value={this.state.body} cols="30" rows="10" disabled={canEdit}></textarea>
                     </div>
 
                     <div className="form-group">
-                        <button onClick={this.handleSubmission}>Submit</button>
+                        <button onClick={this.handleSubmission} disabled={canEdit}>Submit</button>
                     </div>
                 </form>
                 <button onClick={this.handleDelete}>Delete</button>

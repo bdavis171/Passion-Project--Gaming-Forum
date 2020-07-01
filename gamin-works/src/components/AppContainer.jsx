@@ -17,6 +17,7 @@ import MyProfile from "./Users/MyProfile";
 import EditProfile from "./Users/EditProfile";
 import EditReply from "./Replies/EditReply";
 import EditPost from "./Posts/EditPost";
+import EditGame from "./Games/EditGame";
 
 class AppContainer extends Component {
     constructor(props) {
@@ -146,6 +147,7 @@ class AppContainer extends Component {
                         <Route path="/games/addGame" component={() => <AddAGame />} />
                         <Route path="/games/view/:gameID" component={(props) => <SpecificGame {...props} />} />
                         <Route path="/games/searchByTitle/:searchParam" component={(props) => <SearchByGameTitle {...props} />} />
+                        <Route path="/game/edit/:id" component ={(props) => <EditGame {...props}/>}/>
 
                         {/* Post Routes */}
                         <Route path="/posts/games/createPost/:gameID" exact component={(props) => <AddAPostForGame {...props} />} />
