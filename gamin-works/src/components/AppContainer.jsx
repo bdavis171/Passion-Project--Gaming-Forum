@@ -15,6 +15,7 @@ import SearchByGameTitle from "./Games/SearchByGameTitle";
 import SpecificPlatformPost from "./Posts/SpecificPlatformPost";
 import MyProfile from "./Users/MyProfile";
 import EditProfile from "./Users/EditProfile";
+import EditReply from "./Replies/EditReply";
 
 class AppContainer extends Component {
     constructor(props) {
@@ -153,6 +154,7 @@ class AppContainer extends Component {
 
                         {/* Reply Routes */}
                         <Route path="/reply/add/:postID" component={(props) => <AddAReply {...props} />} />
+                        <Route path="/reply/edit/:id" component={(props) => <EditReply {...props}/>}/>
                     </nav>
                 </Router>
 

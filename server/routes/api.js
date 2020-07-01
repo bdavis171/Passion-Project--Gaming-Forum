@@ -126,7 +126,7 @@ router.put("/games/relate/:gameID", authenticateToken, async (req, res) => {
             res.send(errors);
         } else {
             game = results;
-            UserCollection.findOne({ email: req.user.email }, (errors, results) => {
+            UserCollection.findById(req.user.id, (errors, results) => {
                 if (errors) {
                     res.send(errors);
                 } else {
@@ -239,7 +239,7 @@ router.post("/posts/game/:gameID", authenticateToken, async (req, res) => {
                     res.send(errors);
                 } else {
                     game = results;
-                    UserCollection.findOne({ email: req.user.email }, (errors, results) => {
+                    UserCollection.findById(req.user.id, (errors, results) => {
                         if (errors) {
                             res.send(errors);
                         } else {
@@ -273,7 +273,7 @@ router.post("/posts/platform/:platformName", authenticateToken, async (req, res)
                     res.send(errors);
                 } else {
                     platform = results;
-                    UserCollection.findOne({ email: req.user.email }, (errors, results) => {
+                    UserCollection.findById(req.user.id, (errors, results) => {
                         if (errors) {
                             res.send(errors);
                         } else {
@@ -378,7 +378,7 @@ router.post("/reply/:postID", authenticateToken, async (req, res) => {
                     res.send(errors);
                 } else {
                     post = results;
-                    UserCollection.findOne({ email: req.user.email }, (errors, results) => {
+                    UserCollection.findById(req.user.id, (errors, results) => {
                         if (errors) {
                             res.send(errors);
                         } else {
