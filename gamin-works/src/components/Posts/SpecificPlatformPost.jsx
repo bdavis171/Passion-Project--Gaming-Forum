@@ -58,6 +58,7 @@ class SpecificPlatformPost extends Component {
                     </div>
                     <div>
                         <p>{this.state.body}</p>
+                        <Link to = {`/posts/general/edit/${this.state.id}`}>Edit Post</Link>
                     </div>
                     <br/>
                 </div>

@@ -16,6 +16,7 @@ import SpecificPlatformPost from "./Posts/SpecificPlatformPost";
 import MyProfile from "./Users/MyProfile";
 import EditProfile from "./Users/EditProfile";
 import EditReply from "./Replies/EditReply";
+import EditPost from "./Posts/EditPost";
 
 class AppContainer extends Component {
     constructor(props) {
@@ -151,6 +152,7 @@ class AppContainer extends Component {
                         <Route path="/posts/consoles/createPost/:platformName" exact component={(props) => <AddAPostforPlatform {...props} />} />
                         <Route path="/posts/games/view/:id" component={(props) => <SpecificGamePost {...props} />} />
                         <Route path="/posts/consoles/view/:id" component={(props) => <SpecificPlatformPost {...props} />} />
+                        <Route path="/posts/general/edit/:id" component={(props) => <EditPost {...props}/>}/>
 
                         {/* Reply Routes */}
                         <Route path="/reply/add/:postID" component={(props) => <AddAReply {...props} />} />

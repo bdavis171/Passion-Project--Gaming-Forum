@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
 
 
-class EditReply extends Component {
+class EditPost extends Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = { 
+            title: "",
             body: ""
-        }
+         }
     }
 
     componentDidMount = () => {
         this.loadData();
     }
 
-    // load reply data
+    // go back twice
+    goBackTwice = () => {
+        window.history.back();
+        window.history.back();
+    }
+
+    // load post data
     loadData = async () => {
-        let response = await fetch(`/api/reply/${this.props.match.params.id}`);
+        let response = await fetch(`/api/posts/${this.props.match.params.id}`);
         let json = await response.json();
-        this.setState({ body: json.body });
+        this.setState({ 
+            title: json.title,
+            body: json.body
+         });
     }
 
     // handle changes to fields
@@ -28,20 +38,21 @@ class EditReply extends Component {
     // handle submission
     handleSubmission = async (event) => {
         event.preventDefault();
-        let newReply = {
+        let updatedPost = {
+            title: this.state.title,
             body: this.state.body,
             author: JSON.parse(sessionStorage.tokenUser).name,
             authorEmail: JSON.parse(sessionStorage.tokenUser).email
         };
 
-        let response = await fetch(`/api/reply/${this.props.match.params.id}`, {
+        let response = await fetch(`/api/posts/${this.props.match.params.id}`, {
             method: "PUT",
             headers: {
                 "Authorization": sessionStorage.token,
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
-            body: JSON.stringify(newReply)
+            body: JSON.stringify(updatedPost)
         });
 
         let json = await response.json();
@@ -49,10 +60,10 @@ class EditReply extends Component {
         window.history.back();
     }
 
-    // delete reply
+    // delete post
     handleDelete = async(event) => {
-        if(window.confirm("Are you sure you want to delete this reply?")){
-            let response = await fetch(`/api/reply/${this.props.match.params.id}`, {
+        if(window.confirm("Are you sure you want to delete this post?")){
+            let response = await fetch(`/api/posts/${this.props.match.params.id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type":"application/json",
@@ -62,29 +73,34 @@ class EditReply extends Component {
 
             let json = await response.json();
             console.log(json);
-            window.alert("Reply has been deleted");
-            window.history.back();
+            window.alert("Post has been deleted");
+            this.goBackTwice();
         }
     }
 
-    render() {
-        return (
+    render() { 
+        return ( 
             <div>
-                <h4>Edit Reply</h4>
-                <form>
+                <h4>Edit Post</h4>
+                <form action="">
                     <div className="form-group">
-                        <label htmlFor="body">Enter your message</label>
-                        <textarea name="body" id="body" onChange={this.handleChanges} value={this.state.body} cols="30" rows="10"></textarea>
+                        <label htmlFor="title">Title: {" "}</label>
+                        <input type="text" name="title" id="title" onChange={this.handleChanges} value={this.state.title}/>
                     </div>
 
                     <div className="form-group">
-                        <button onClick={this.handleSubmission}>Submit</button>
+                        <label htmlFor="body">Body: {" "}</label>
+                        <textarea name="body" id="body" onChange={this.handleChanges} cols="30" rows="10" value={this.state.body}></textarea>
+                    </div>
+
+                    <div className="form-group">
+                        <button type="submit" onClick={this.handleSubmission}>Submit</button>
                     </div>
                 </form>
                 <button onClick={this.handleDelete}>Delete</button>
             </div>
-        );
+         );
     }
 }
-
-export default EditReply;
+ 
+export default EditPost;
