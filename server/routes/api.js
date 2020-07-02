@@ -92,9 +92,24 @@ router.put("/games/:id", (req, res) => {
 router.delete("/games/:id", (req, res) => {
 
     GameCollection.findByIdAndDelete(req.params.id, (errors, results) => {
-        errors ? res.send(errors) : res.send(results);
+        errors ? res.send(errors) : 
+        results.relatedPosts.forEach(
+            (post) => {
+                PostCollection.findByIdAndDelete(post._id,(error,results2 => {
+                    error ? res.send(error):
+                    results2.replies.forEach(
+                        (reply) => {
+                            ReplyCollection.findByIdAndDelete(reply,(errors,results3) => {
+                                errors ? res.send(errors): res.send(results);
+                            })
+                        }
+                    )
+                }))
+            }
+        )
+       
 
-    });
+    }).populate("relatedPosts");
 
     PlatformCollection.find((errors, results) => {
         errors ? res.send(errors)

@@ -5,8 +5,8 @@ import AppContainer from './components/AppContainer';
 
 class App extends Component {
   componentDidMount = () => {
-    // if(window.location.href !== "http://localhost:3000/login")
-    // window.location= "/login";
+    if(window.location.href === "http://localhost:3000/")
+    window.location= "/home";
 }
 render() {
   return (

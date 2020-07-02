@@ -18,6 +18,8 @@ import EditProfile from "./Users/EditProfile";
 import EditReply from "./Replies/EditReply";
 import EditPost from "./Posts/EditPost";
 import EditGame from "./Games/EditGame";
+import EditPlatform from "./Platforms/EditPlatform";
+import Home from "./Home";
 
 class AppContainer extends Component {
     constructor(props) {
@@ -74,20 +76,20 @@ class AppContainer extends Component {
         sessionStorage.setItem("tokenUser", JSON.stringify(tokenUser))
         console.log(sessionStorage.getItem("token"));
         console.log(JSON.parse(sessionStorage.tokenUser));
-        window.location = "/";
+        window.location = "/home";
 
     };
 
     // log out user
     handleLogout = (event) => {
         sessionStorage.setItem("token", "");
-        window.location = "/";
+        window.location = "/home";
     }
 
     render() {
         let handleLogin, handleRegister;
         if (sessionStorage.getItem("token")) {
-            handleLogin = <Link to="/" onClick={this.handleLogout}>Logout{" "}</Link>;
+            handleLogin = <Link to="/home" onClick={this.handleLogout}>Logout{" "}</Link>;
             handleRegister = <Link to={`/users/myProfile`}>{JSON.parse(sessionStorage.tokenUser).name}{" "}</Link>;
         } else {
             handleLogin = <Link to="/login">Login{" "}</Link>;
@@ -97,7 +99,7 @@ class AppContainer extends Component {
         return (
             <div>
                 <Router>
-                    <Link to="/"><h1>Gamin' Works</h1></Link>
+                    <Link to="/home"><h1>Gamin' Works</h1></Link>
                     <nav>
                         {handleLogin}
                         {handleRegister}
@@ -129,19 +131,20 @@ class AppContainer extends Component {
 
                         </div>
 
-                        {/* <Link to="/consoles/listOfConsoles">More Systems</Link> */}
-                        {/* <Link key={index} to={`/consoles/view/${platform.name}`} >{platform.name}{" "}</Link> */}
+                        
 
                         {/* User Routes */}
                         <Route path="/users/myProfile" component={(props) => <MyProfile {...props} />} />
                         <Route path="/login" component={() => <Login getToken={this.getToken} />} />
                         <Route path="/register" component={() => <Register />} />
                         <Route path="/users/edit/:id" component={(props) => <EditProfile {...props} />} />
+                        <Route path="/home" component={() => <Home/>}/>
 
                         {/* Platform Routes */}
                         <Route path="/consoles/addConsole" component={() => <AddAPlatform />} />
                         <Route path="/consoles/listOfConsoles" component={() => <AllPlatforms />} />
                         <Route path="/consoles/view/:consoleName" component={(props) => <SpecificPlatform {...props} />} />
+                        <Route path="/consoles/edit/:name" component={(props) => <EditPlatform {...props}/>}/>
 
                         {/* Game Routes */}
                         <Route path="/games/addGame" component={() => <AddAGame />} />

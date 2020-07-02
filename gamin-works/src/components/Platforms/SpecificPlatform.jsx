@@ -37,9 +37,7 @@ class SpecificPlatform extends Component {
         this.setState({
             name: json.name,
             maker: json.maker,
-            releaseDate: json.releaseDate,
-            games: json.games,
-            relatedPosts: json.relatedPosts
+            releaseDate: json.releaseDate
         });
         console.log(this.state);
     }
@@ -114,7 +112,7 @@ class SpecificPlatform extends Component {
                     <p>Console Maker: {this.state.maker}</p>
                     <p>Release Date: {this.state.releaseDate}</p>
                 </div>
-
+            <Link to={`/consoles/edit/${this.state.name}`}>Edit</Link>
                 <button onClick={this.handleDisplayGames}>Games</button>
                 <button onClick={this.handleDisplayPosts}>Posts</button>
                 {displayPosts}

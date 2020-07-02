@@ -58,15 +58,15 @@ class Register extends Component {
         <form action="">
           <div>
             <label htmlFor="name">Name:</label>
-            <input type="text" name="name" id="name" value={this.state.name} onChange={this.handleChanges} />
+            <input type="text" name="name" id="name" value={this.state.name} onChange={this.handleChanges} value={this.state.name}/>
           </div>
           <div>
             <label htmlFor="email">Email:</label>
-            <input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChanges} />
+            <input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChanges} value={this.state.email}/>
           </div>
           <div>
             <label htmlFor="password">Password:</label>
-            <input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChanges} />
+            <input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChanges} value={this.state.password}/>
           </div>
           <button onClick={this.handleSubmission}>Submit</button>
         </form>

@@ -84,6 +84,25 @@ class EditProfile extends Component {
         window.location = "/users/myProfile";
     }
 
+    // delete the user
+    handleDelete = async(event) => {
+        if(window.confirm("Are you sure you want to delete your Profile?")){
+            let response = await fetch(`/users/${this.props.match.params.id}`,{
+            method: "DELETE",
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"application/json"
+            }
+        });
+        let json = await response.json();
+        console.log(json);
+        window.alert(`Profile has been deleted.`);
+        sessionStorage.token = "";
+        window.location = "/home";
+        }
+        
+    }
+
     render() {
         return (
             <div>
@@ -118,7 +137,7 @@ class EditProfile extends Component {
                     </div>
                 </form>
                 <div>
-                    <button>Delete</button>
+                    <button onClick={this.handleDelete}>Delete</button>
                 </div>
             </div>
         );
