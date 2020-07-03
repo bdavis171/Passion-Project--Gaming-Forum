@@ -53,6 +53,11 @@ class AddAGame extends Component {
         let json = await response.json();
 
         console.log(json);
+        if(json.errors || json.error){
+            window.alert("Check all fields and make sure they are full");
+        } else {
+            window.location = `/games/view/${json._id}`;
+        }
 
     }
 
@@ -97,7 +102,7 @@ class AddAGame extends Component {
 
                     <div className="form-group">
                         <label htmlFor="releaseDate">Release Date:{" "}</label>
-                        <input type="text" name="releaseDate" id="releaseDate" onChange={this.handleChanges} placeholder="Ex: March 14, 2008"/>
+                        <input type="date" name="releaseDate" id="releaseDate" onChange={this.handleChanges} />
                     </div>
 
                     <div className="form-group">

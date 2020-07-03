@@ -31,12 +31,20 @@ class SpecificGame extends Component {
             id: json._id,
             title: json.title,
             genre: json.genre,
-            platform: json.platform[0],
+            
             developer: json.developer,
             publisher: json.publisher,
             releaseDate: json.releaseDate,
-            relatedPosts: json.relatedPosts
+            
         });
+
+        if(json.platform){
+            this.setState({platform: json.platform[0]})
+        }
+
+        if(json.relatedPosts){
+            this.setState({relatedPosts: json.relatedPosts})
+        }
         console.log(json);
     }
 
@@ -60,7 +68,7 @@ class SpecificGame extends Component {
                     <p>Publisher: {this.state.publisher}</p>
                     <p>Release Date: {this.state.releaseDate}</p>
                 </div>
-                    <button>Add to Collection</button>
+                    {/* <button>Add to Collection</button> */}
                     {editGame}
                 <div>
                     <h4>Posts</h4>

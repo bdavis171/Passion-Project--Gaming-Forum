@@ -74,9 +74,10 @@ class EditPlatform extends Component {
         });
         let json = await response.json();
         console.log(json);
-        window.alert(`${this.state.name} has been deleted.`)
+        window.alert(`${this.state.name} has been deleted.`);
+         window.location = "/home";
         }
-        window.location = "/home";
+       
     }
 
     render() { 

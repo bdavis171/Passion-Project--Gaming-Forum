@@ -39,8 +39,10 @@ router.post("/games/:platformID", async (req, res) => {
                 platform = results;
             game.platform.push(platform._id);
             platform.games.push(game._id);
+            
             game.save();
             platform.save();
+            console.log(platform.games);
             res.send(game);
         })
     });
@@ -315,7 +317,7 @@ router.get("/posts", (req, res) => {
     // res.send("all posts viewed");
     PostCollection.find((errors, results) => {
         errors ? res.send(errors) : res.send(results);
-    }).populate("relatedGame");
+    }).populate({path:"relatedGame",populate:("platform")}).populate({path:"replies",populate:"author"}).populate("relatedPlatform").populate("author")
 });
 
 // GET: view one post by id

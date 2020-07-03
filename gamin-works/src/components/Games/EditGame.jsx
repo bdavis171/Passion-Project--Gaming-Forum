@@ -73,6 +73,7 @@ class EditGame extends Component {
         let json = await response.json();
 
         console.log(json);
+        window.history.back();
 
     }
 
@@ -86,11 +87,13 @@ class EditGame extends Component {
                 "Accept":"application/json"
             }
         });
+        console.log("yes");
         let json = await response.json();
         console.log(json);
-        window.alert(`${this.state.title} has been deleted.`)
-        }
+        window.alert(`${this.state.title} has been deleted.`);
         this.setState({redirect: true});
+        }
+        console.log("no");
     }
 
     render() {
@@ -98,12 +101,12 @@ class EditGame extends Component {
         if (this.state.hasSetDate === true) {
             dateField = <div className="form-group">
                 <label htmlFor="releaseDate">Release Date:{" "}</label>
-                <input type="date" name="releaseDate" id="releaseDate" onChange={this.handleChanges} placeholder="Ex: March 14, 2008" />
+                <input type="date" name="releaseDate" id="releaseDate" onChange={this.handleChanges} value={this.state.releaseDate} />
             </div>
         } else {
             dateField = <div className="form-group">
                 <label htmlFor="releaseDate">Release Date:{" "}</label>
-                <input type="text" name="releaseDate" id="releaseDate" onChange={this.handleChanges} placeholder="Ex: March 14, 2008" />
+                <input type="text" name="releaseDate" id="releaseDate" onChange={this.handleChanges} value={this.state.releaseDate} />
             </div>
         }
 
@@ -136,11 +139,11 @@ class EditGame extends Component {
                     </div>
 
                     <div>
-                        <p>Does the game have a set release date?</p>
-                        <label htmlFor="true">Yes</label>
+                  
+                        <label htmlFor="true">Has Set Release Date</label>
                         <input type="radio" name="hasSetDate" id="true" value= {true} onClick={this.handleReleaseDate}/>
 
-                        <label htmlFor="false">No</label>
+                        <label htmlFor="false">TBD</label>
                         <input type="radio" name="hasSetDate" id="false" value={false} onClick={this.handleReleaseDate}/>
                     </div>
 

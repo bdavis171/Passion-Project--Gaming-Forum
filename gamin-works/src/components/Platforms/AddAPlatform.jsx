@@ -37,8 +37,12 @@ class AddAPlatform extends Component {
         let json = await response.json();
 
         console.log(json);
-
-        window.location = `/consoles/view/${json.name}`;
+        if(json.errors || json.error){
+            window.alert("Check all fields and make sure they are full");
+        } else {
+            window.location = `/consoles/view/${json.name}`;
+        }
+        
 
     }
 

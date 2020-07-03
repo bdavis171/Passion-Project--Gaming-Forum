@@ -37,9 +37,11 @@ class SpecificPlatform extends Component {
         this.setState({
             name: json.name,
             maker: json.maker,
-            releaseDate: json.releaseDate
+            releaseDate: json.releaseDate,
+            games: json.games,
+            relatedPosts: json.relatedPosts
         });
-        console.log(this.state);
+        console.log(json);
     }
 
     // handle displaying game list
@@ -64,7 +66,14 @@ class SpecificPlatform extends Component {
 
     // render the component
     render() {
-        let displayGames, displayPosts;
+        let displayGames, displayPosts, editPlatform;
+
+        if(JSON.parse(sessionStorage.tokenUser).role === "Admin"){
+            editPlatform = <Link to={`/consoles/edit/${this.state.name}`}>Edit</Link>;
+        } else {
+            editPlatform = "";
+        }
+
         if (this.state.showGames) {
             displayGames = <div>
                 <h5><strong>Games</strong></h5>
@@ -112,7 +121,7 @@ class SpecificPlatform extends Component {
                     <p>Console Maker: {this.state.maker}</p>
                     <p>Release Date: {this.state.releaseDate}</p>
                 </div>
-            <Link to={`/consoles/edit/${this.state.name}`}>Edit</Link>
+            {editPlatform}
                 <button onClick={this.handleDisplayGames}>Games</button>
                 <button onClick={this.handleDisplayPosts}>Posts</button>
                 {displayPosts}
