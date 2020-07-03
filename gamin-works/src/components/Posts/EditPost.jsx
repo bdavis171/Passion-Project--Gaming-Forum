@@ -42,9 +42,7 @@ class EditPost extends Component {
         event.preventDefault();
         let updatedPost = {
             title: this.state.title,
-            body: this.state.body,
-            author: JSON.parse(sessionStorage.tokenUser).name,
-            authorEmail: JSON.parse(sessionStorage.tokenUser).email
+            body: this.state.body
         };
 
         let response = await fetch(`/api/posts/${this.props.match.params.id}`, {
@@ -83,7 +81,7 @@ class EditPost extends Component {
     render() { 
         let canEdit = false;
         if (JSON.parse(sessionStorage.tokenUser).role === "Admin" && JSON.parse(sessionStorage.tokenUser).id !== this.state.author._id){
-            canEdit = true
+            canEdit = true;
         }
         return ( 
             <div>

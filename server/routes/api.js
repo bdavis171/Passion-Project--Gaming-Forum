@@ -431,7 +431,7 @@ router.get("/reply/:id", (req, res) => {
     // res.send("one reply viewed");
     ReplyCollection.findById(req.params.id, (errors, results) => {
         errors ? res.send(errors) : res.send(results);
-    }).populate("relatedPost");
+    }).populate("relatedPost").populate("author");
 });
 
 // PUT: edit a reply
