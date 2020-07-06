@@ -50,7 +50,12 @@ class AddAPostforPlatform extends Component {
         });
 
         let json = await response.json();
-        console.log(json);
+        if(json.error || json.errors){
+            console.log(json); 
+         } else {
+             console.log(json);
+             window.location = `/posts/consoles/view/${json._id}`;
+         }
     }
 
     render() {

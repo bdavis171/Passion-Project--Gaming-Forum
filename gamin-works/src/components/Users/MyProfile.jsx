@@ -40,13 +40,13 @@ class MyProfile extends Component {
     }
 
     render() {
-        let addConsole, addGame, recentPosts, recentReplies, gamesOwned;
+        let addConsole, recentPosts, recentReplies, gamesOwned;
         if (JSON.parse(sessionStorage.tokenUser).role === "Admin") {
             addConsole = <Link to="/consoles/addConsole">Add Console{" "}</Link>;
-            addGame = <Link to="/games/addGame">Add Game</Link>;
+            
         } else {
             addConsole = "";
-            addGame = "";
+            
         }
 
         if (!this.state.posts[0]) {
@@ -146,7 +146,7 @@ class MyProfile extends Component {
                     </div>
 
                     {addConsole}
-                    {addGame}
+                    
                 </div>
 
                 <div>
@@ -161,11 +161,11 @@ class MyProfile extends Component {
                         {recentReplies}
                     </div>
                 </div>
-
+{/* 
                 <div>
                     <h5>Your Games</h5>
                     {gamesOwned}
-                </div>
+                </div> */}
             </div>
         );
     }

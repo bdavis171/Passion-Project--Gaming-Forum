@@ -44,7 +44,7 @@ class Home extends Component {
             let maxValue = json2[0].relatedPosts.length;
             for (let i = 0; i < json2.length; i++) {
                 if (json2[i].relatedPosts.length >= maxValue) {
-                    this.state.popularGames.push(json2[i]);
+                    this.state.popularGames.splice(0,1,json2[i]);
                     this.setState({ popularGames: this.state.popularGames });
                     maxValue = json2[i].relatedPosts.length;
                 }
@@ -57,7 +57,7 @@ class Home extends Component {
             let maxValue = json3[0].relatedPosts.length;
             for (let i=0; i < json3.length;i++){
                 if(json3[i].relatedPosts.length >= maxValue){
-                    this.state.popularConsoles.push(json3[i]);
+                    this.state.popularConsoles.splice(0,1,json3[i]);
                     this.setState({popularConsoles: this.state.popularConsoles});
                     maxValue = json3[i].relatedPosts.length;
                 }
@@ -83,7 +83,7 @@ class Home extends Component {
                                 if (post.relatedGame[0]) {
                                     console.log(post.relatedGame[0]);
                                     relatedTopic = <Link to={`/games/view/${post.relatedGame[0]._id}`}>{post.relatedGame[0].title} <br /> {post.relatedGame[0].platform[0].name}</Link>
-                                    postLink = <Link to={`/posts/games/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length}{" "}| {date}</Link>
+                                    postLink = <Link to={`/posts/games/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
                                 } else if (post.relatedPlatform[0]) {
                                     relatedTopic = <Link to={`/consoles/view/${post.relatedPlatform[0].name}`}>{post.relatedPlatform[0].name}</Link>
                                     postLink = <Link to={`/posts/consoles/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
@@ -134,7 +134,7 @@ class Home extends Component {
                         )
                     }
                 </div>
-
+<br/>
             </div>
         );
     }

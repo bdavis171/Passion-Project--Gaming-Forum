@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 
 class AddAPostForGame extends Component {
@@ -52,10 +53,17 @@ class AddAPostForGame extends Component {
         });
 
         let json = await response.json();
-        console.log(json);
+        if(json.error || json.errors){
+           console.log(json); 
+        } else {
+            console.log(json);
+            window.location = `/posts/games/view/${json._id}`;
+        }
+        
     }
 
     render() {
+        
 
         return (
             <div>

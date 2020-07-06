@@ -78,7 +78,7 @@ class SpecificGame extends Component {
                             let date = post.dateCreated.split("T")[0];
                             return (
                                 <div key={post._id}>
-                                    <Link to={`/posts/games/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length}{" "}| {date}</Link>
+                                    <Link to={`/posts/games/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
                                 </div>
                             )
                         }

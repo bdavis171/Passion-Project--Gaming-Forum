@@ -66,7 +66,15 @@ class SpecificPlatform extends Component {
 
     // render the component
     render() {
-        let displayGames, displayPosts, editPlatform;
+        let displayGames, displayPosts, editPlatform,addGame;
+
+        if (JSON.parse(sessionStorage.tokenUser).role === "Admin") {
+            
+            addGame = <Link to="/games/addGame">Add Game</Link>;
+        } else {
+            
+            addGame = "";
+        }
 
         if(JSON.parse(sessionStorage.tokenUser).role === "Admin"){
             editPlatform = <Link to={`/consoles/edit/${this.state.name}`}>Edit</Link>;
@@ -82,10 +90,13 @@ class SpecificPlatform extends Component {
                         return (
                             <div key={game._id}>
                                 <Link to={`/games/view/${game._id}`}>{game.title}</Link>
+                                <br/>
+                                <br/>
                             </div>
                         )
                     }
                 )}
+                {addGame}
             </div>;
 
             displayPosts = "";
@@ -106,6 +117,7 @@ class SpecificPlatform extends Component {
                         )
                     }
                 )}
+                <Link to={`/posts/consoles/createPost/${this.state.name}`}>Create a Post</Link>
             </div>
 
         }
@@ -127,7 +139,7 @@ class SpecificPlatform extends Component {
                 {displayPosts}
                 {displayGames}
 
-                <Link to={`/posts/consoles/createPost/${this.state.name}`}>Create a Post</Link>
+                
 
             </div>
         );
