@@ -1,0 +1,130 @@
+body {
+  background-color: #202020;
+  color: white;
+}
+
+/* Drop down for select consoles */
+
+.dropdown-content {
+  display: none;
+}
+
+.dropdown-content Link:hover {
+  background-color: grey;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: blue;
+  border-color: blue;
+  color: white;
+}
+
+/* Nav Bar */
+#nav-bar{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 1%;
+    background-color: rgb(1, 36, 59);
+}
+
+#home-link{
+    grid-column: 1;
+}
+
+#search-bar{
+    grid-column: 2;
+    grid-row: 1;
+    position: relative; bottom: -38%;
+}
+
+.dropdown{
+    grid-column: 3;
+    grid-row: 1;
+    position: relative; bottom: -43%;
+}
+
+.login-logout-link{
+    grid-column: 4;
+    position: relative; bottom: -43%;
+    font-size: large;
+    text-decoration: none;
+    color: rgb(180, 179, 179);
+}
+
+.register-myProfile-link{
+    grid-column: 5;
+    position: relative; bottom: -43%;
+    font-size: large;
+    text-decoration: none;
+    color: rgb(180, 179, 179);
+}
+
+/* Home */
+#home-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 1%;
+}
+
+#recent-posts-section{
+    overflow: scroll;
+    border: 2px solid black;
+    margin-left: 1%;
+}
+
+#recent-posts-section h4, #popular-game-section h4, #popular-console-section h4{
+font-size: x-large;
+}
+
+#recent-posts-section p{
+    text-align: left;
+    font-size: large;
+    padding-left: 1%;
+    color:  rgb(3, 118, 196);
+}
+
+.recent-posts{
+    padding:1%;
+    border-bottom: 2px solid black;
+    text-align: left;
+    font-size: large;
+}
+
+.relatedTopic-link{
+    color: white;
+    text-decoration: none;
+}
+
+.relatedTopic-link:hover{
+    text-decoration: underline;
+}
+.post-link{
+    color:  rgb(3, 118, 196);
+    text-decoration: none;
+}
+
+.post-link:hover,.popular-game-link:hover, .popular-console-link:hover,.login-logout-link:hover,.register-myProfile-link:hover{
+    text-decoration: underline;
+}
+
+#popular-game-section{
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#popular-console-section{
+    grid-column: 2;
+    grid-row: 2;
+    position: relative; bottom: 190%;
+}
+
+.popular-game-link, .popular-console-link{
+    color:  rgb(3, 118, 196);
+    font-size: large;
+    text-decoration: none;
+}
+

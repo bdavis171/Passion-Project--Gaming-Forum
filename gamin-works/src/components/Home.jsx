@@ -70,10 +70,11 @@ class Home extends Component {
 
     render() {
         return (
-            <div>
+            <div id="home-container">
 
-                <div>
+                <div id="recent-posts-section">
                     <h4>Recent Posts</h4>
+                    <p><strong>Title</strong>{" "}| Author{" "}| # of Posts{" "}| Date Created</p>
                     {this.state.recentPosts.map(
                         (post) => {
                             if (post) {
@@ -81,16 +82,16 @@ class Home extends Component {
                                 let relatedTopic, postLink;
 
                                 if (post.relatedGame[0]) {
-                                    console.log(post.relatedGame[0]);
-                                    relatedTopic = <Link to={`/games/view/${post.relatedGame[0]._id}`}>{post.relatedGame[0].title} <br /> {post.relatedGame[0].platform[0].name}</Link>
-                                    postLink = <Link to={`/posts/games/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
+                                    
+                                    relatedTopic = <Link className="relatedTopic-link" to={`/games/view/${post.relatedGame[0]._id}`}>{post.relatedGame[0].title} {" "}-{" "} {post.relatedGame[0].platform[0].name}</Link>
+                                    postLink = <Link className="post-link" to={`/posts/games/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
                                 } else if (post.relatedPlatform[0]) {
-                                    relatedTopic = <Link to={`/consoles/view/${post.relatedPlatform[0].name}`}>{post.relatedPlatform[0].name}</Link>
-                                    postLink = <Link to={`/posts/consoles/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
+                                    relatedTopic = <Link className="relatedTopic-link" to={`/consoles/view/${post.relatedPlatform[0].name}`}>{post.relatedPlatform[0].name}</Link>
+                                    postLink = <Link className="post-link" to={`/posts/consoles/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
                                 }
 
                                 return (
-                                    <div key={post._id}>
+                                    <div key={post._id} className="recent-posts">
                                         {postLink}
                                         <br />
                                         {relatedTopic}
@@ -103,7 +104,7 @@ class Home extends Component {
                     )}
                 </div>
 
-                <div>
+                <div id="popular-game-section">
                     <h4>Popular Game</h4>
                     {
                         this.state.popularGames.map(
@@ -111,7 +112,7 @@ class Home extends Component {
                                 if (game) {
                                     return (
                                         <div key={game._id}>
-                                            <Link to={`/games/view/${game._id}`}>{game.title}</Link>
+                                            <Link className="popular-game-link" to={`/games/view/${game._id}`}>{game.title}{" "}-{" "}{game.platform[0].name}</Link>
                                         </div>
                                     )
                                 }
@@ -120,14 +121,14 @@ class Home extends Component {
                     }
                 </div>
 
-                <div>
+                <div id="popular-console-section">
                     <h4>Popular Console</h4>
                     {
                         this.state.popularConsoles.map(
                             (platform) => {
                                 if(platform){
                                     return(
-                                        <Link key={platform._id} to={`/consoles/view/${platform.name}`} >{platform.name}{" "}</Link>
+                                        <Link className="popular-console-link" key={platform._id} to={`/consoles/view/${platform.name}`} >{platform.name}{" "}</Link>
                                     )
                                 }
                             }

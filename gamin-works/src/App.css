@@ -39,20 +39,4 @@
 
 
 
-.dropdown-content{
-  display: none;
-}
 
-.dropdown-content .links:hover {
-  background-color: grey;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-  
-.dropdown:hover .dropbtn {
-  background-color: blue;
-  border-color: blue;
-  color: white;
-}
