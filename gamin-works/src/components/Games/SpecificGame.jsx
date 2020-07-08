@@ -57,9 +57,9 @@ class SpecificGame extends Component {
             editGame = "";
         }
         return ( 
-            <div>
+            <div id="game-container">
                 <h3>{this.state.title}</h3>
-                <div>
+                <div id="game-details">
                     <h4>Details</h4>
                     <p>Platform: {this.state.platform.name}</p>
                     <p>Title: {this.state.title}</p>
@@ -67,25 +67,34 @@ class SpecificGame extends Component {
                     <p>Developer: {this.state.developer}</p>
                     <p>Publisher: {this.state.publisher}</p>
                     <p>Release Date: {this.state.releaseDate}</p>
+                    {editGame}
                 </div>
                     {/* <button>Add to Collection</button> */}
-                    {editGame}
-                <div>
+                    
+                <div id="game-posts-section">
                     <h4>Posts</h4>
                     <p><strong>Title</strong>{" "}| Author{" "}| # of Posts{" "}| Date Created</p>
-                    {this.state.relatedPosts.map(
+                    <div id="game-posts">
+                        {this.state.relatedPosts.map(
                         (post) => {
                             let date = post.dateCreated.split("T")[0];
                             return (
                                 <div key={post._id}>
-                                    <Link to={`/posts/games/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
+                                    <Link className="post-link" to={`/posts/games/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
+                                    <br/>
+                                    <br/>
                                 </div>
                             )
                         }
                     )}
+
+                    </div>
+                    
+                    <br/>
+                    <Link className="post-link" to={`/posts/games/createPost/${this.state.id}`}>Create A New Post</Link>
                 </div>
 
-                <Link to={`/posts/games/createPost/${this.state.id}`}>Create A New Post</Link>
+                
             </div>
          );
     }

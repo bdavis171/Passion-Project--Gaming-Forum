@@ -9,12 +9,25 @@ body {
   display: none;
 }
 
-.dropdown-content Link:hover {
+.content{
+    color: white;
+    text-decoration: none;
+}
+
+.dropdown-content .content:hover {
   background-color: grey;
+}
+
+.dropdown-content{
+    width: 150px;
+    height: 100px;
+    position: relative; left: 25%;
+    background-color: rgb(3, 118, 196) ;
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
+  overflow-y: scroll;
 }
 
 .dropdown:hover .dropbtn {
@@ -33,18 +46,21 @@ body {
 
 #home-link{
     grid-column: 1;
+    height: 1%;
 }
 
 #search-bar{
     grid-column: 2;
     grid-row: 1;
     position: relative; bottom: -38%;
+    height: 1%;
 }
 
 .dropdown{
     grid-column: 3;
     grid-row: 1;
     position: relative; bottom: -43%;
+    height: 1%;
 }
 
 .login-logout-link{
@@ -53,6 +69,7 @@ body {
     font-size: large;
     text-decoration: none;
     color: rgb(180, 179, 179);
+    height: 1%;
 }
 
 .register-myProfile-link{
@@ -61,6 +78,7 @@ body {
     font-size: large;
     text-decoration: none;
     color: rgb(180, 179, 179);
+    height: 1%;
 }
 
 /* Home */
@@ -71,9 +89,11 @@ body {
 }
 
 #recent-posts-section{
-    overflow: scroll;
+    overflow-y: scroll;
     border: 2px solid black;
     margin-left: 1%;
+    height: 500px;
+    
 }
 
 #recent-posts-section h4, #popular-game-section h4, #popular-console-section h4{
@@ -127,4 +147,112 @@ font-size: x-large;
     font-size: large;
     text-decoration: none;
 }
+
+/* My Profile */
+#myProfile-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding:1%;
+}
+
+#profile-section{
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 2px solid black;
+}
+
+#profile-section img{
+    position: relative; left: 37%;
+}
+
+.addConsole-addGame-link{
+    color: rgb(3,118,196);
+    text-decoration: none;
+    font-size: large;
+    height: 1%;
+}
+
+.addConsole-addGame-link:hover{
+    text-decoration: underline;
+}
+
+#recent-activity-section{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border:2px solid black;
+}
+
+#recent-activity-section h4{
+    grid-column: 1/3;
+    grid-row: 1;
+    /* position: relative; left: 10%; */
+    font-size: x-large;
+    
+}
+
+#recent-posts{
+    grid-column: 1;
+    grid-row: 2;
+    position: relative; bottom: 10%;
+    overflow-y: scroll;
+    height: 350px;
+}
+
+#recent-replies{
+    grid-column: 2;
+    grid-row: 2;
+    position: relative; bottom: 10%;
+    overflow-y: scroll;
+    height: 350px;
+}
+
+#recent-posts h5, #recent-replies h5{
+    font-size: large;
+}
+
+#name-section, #contact-section, #bio-section, #signature-section{
+    font-size: large;
+    text-align: left;
+    margin-left: 1%;
+}
+
+/* Consoles */
+
+#console-container, #game-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#console-container h3, #game-container h3{
+    grid-column: 1/3;
+    grid-row: 1;
+    text-align: left;
+    font-size: xx-large;
+}
+
+#game-post-btn{
+    grid-column: 1/3;
+    grid-row: 2;
+}
+
+#games-section, #console-posts-section{
+    grid-column: 1;
+    grid-row: 3;
+}
+
+#console-posts, #games, #game-posts{
+    overflow-y: scroll;
+}
+
+#games-section h5, #console-posts-section h5, #console-details h5, #game-details h4, #game-posts-section h4{
+    font-size: larger;
+}
+
+/* Games */
+#game-details{
+    grid-column: 2;
+    grid-row: 2;
+}
+
+
 

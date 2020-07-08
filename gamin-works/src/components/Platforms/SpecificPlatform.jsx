@@ -70,32 +70,36 @@ class SpecificPlatform extends Component {
 
         if (JSON.parse(sessionStorage.tokenUser).role === "Admin") {
             
-            addGame = <Link to="/games/addGame">Add Game</Link>;
+            addGame = <Link className="post-link" to="/games/addGame">Add Game</Link>;
         } else {
             
             addGame = "";
         }
 
         if(JSON.parse(sessionStorage.tokenUser).role === "Admin"){
-            editPlatform = <Link to={`/consoles/edit/${this.state.name}`}>Edit</Link>;
+            editPlatform = <Link className="post-link" to={`/consoles/edit/${this.state.name}`}>Edit</Link>;
         } else {
             editPlatform = "";
         }
 
         if (this.state.showGames) {
-            displayGames = <div>
+            displayGames = <div id="games-section">
                 <h5><strong>Games</strong></h5>
+                <div id="games">
+                
                 {this.state.games.map(
                     game => {
                         return (
                             <div key={game._id}>
-                                <Link to={`/games/view/${game._id}`}>{game.title}</Link>
+                                <Link className="post-link" to={`/games/view/${game._id}`}>{game.title}</Link>
                                 <br/>
                                 <br/>
                             </div>
                         )
                     }
                 )}
+                </div>
+                <br/>
                 {addGame}
             </div>;
 
@@ -104,38 +108,48 @@ class SpecificPlatform extends Component {
         } else {
             displayGames = "";
 
-            displayPosts = <div>
+            displayPosts = <div id="console-posts-section">
                 <h5>Posts</h5>
                 <p><strong>Title</strong>{" "}| Author{" "}| # of Posts{" "}| Date Created</p>
+                <div id="console-posts">
                 {this.state.relatedPosts.map(
                     (post) => {
                         let date = post.dateCreated.split("T")[0];
                         return (
                             <div>
-                                <Link to={`/posts/consoles/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
+                                <Link className="post-link" to={`/posts/consoles/view/${post._id}`}><strong>{post.title}</strong>{" "}| {post.author[0].name}{" "}| {post.replies.length + 1}{" "}| {date}</Link>
+                                <br/>
+                                <br/>
                             </div>
                         )
                     }
                 )}
-                <Link to={`/posts/consoles/createPost/${this.state.name}`}>Create a Post</Link>
+                
+                </div>
+                <br/>
+                <Link className="post-link" to={`/posts/consoles/createPost/${this.state.name}`}>Create a Post</Link>
             </div>
 
         }
 
 
         return (
-            <div>
+            <div id="console-container">
                 <h3>{this.state.name}</h3>
 
-                <div>
+                <div id="console-details">
                     <h5>Details</h5>
                     <p>Console Name: {this.state.name}</p>
                     <p>Console Maker: {this.state.maker}</p>
                     <p>Release Date: {this.state.releaseDate}</p>
+                    {editPlatform}
                 </div>
-            {editPlatform}
+            
+            <div id="game-post-btn">
                 <button onClick={this.handleDisplayGames}>Games</button>
                 <button onClick={this.handleDisplayPosts}>Posts</button>
+            </div>
+                
                 {displayPosts}
                 {displayGames}
 

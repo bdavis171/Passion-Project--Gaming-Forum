@@ -58,7 +58,7 @@ class SpecificGamePost extends Component {
                     <h4>{this.state.relatedGame.title}</h4>
                     <h5>{this.state.platform.name}</h5>
                 </div>
-            <Link to = {`/reply/add/${this.state.id}`}>Reply to this post</Link>
+            <Link className="post-link" to = {`/reply/add/${this.state.id}`}>Reply to this post</Link>
 
                 <div>
                     <div>

@@ -44,7 +44,7 @@ class SearchByGameTitle extends Component {
                     {this.state.searchResults.map(
                         (game) => {
                             return (
-                                <Link key={game._id} to={`/games/view/${game._id}`}>
+                                <Link className="post-link" key={game._id} to={`/games/view/${game._id}`}>
                                     <p>{game.title}</p>
                                     <p>{game.platform[0].name}</p>
                                     <br/>
