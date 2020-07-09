@@ -49,7 +49,7 @@ class AddAPlatform extends Component {
     render() { 
         return ( 
             <div>
-                <h5>Add A Platform</h5>
+                <h2>Add A Console</h2>
                 <form action="">
                     <div className="form-group">
                         <label htmlFor="name">Name:{" "}</label>

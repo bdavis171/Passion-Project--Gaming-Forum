@@ -46,7 +46,7 @@ class SpecificGamePost extends Component {
     render() {
         let editPost;
         if(JSON.parse(sessionStorage.tokenUser).id === this.state.author._id || JSON.parse(sessionStorage.tokenUser).role === "Admin"){
-            editPost = <Link to = {`/posts/general/edit/${this.state.id}`}>Edit Post</Link>
+            editPost = <Link className="post-link" to = {`/posts/general/edit/${this.state.id}`}>Edit Post</Link>
         } else {
             editPost = "";
         }
@@ -54,9 +54,9 @@ class SpecificGamePost extends Component {
             <div>
 
                 <div>
-                    <h3>{this.state.title}</h3>
-                    <h4>{this.state.relatedGame.title}</h4>
-                    <h5>{this.state.platform.name}</h5>
+                    <h1>{this.state.title}</h1>
+                    <h2>{this.state.relatedGame.title}</h2>
+                    <h3>{this.state.platform.name}</h3>
                 </div>
             <Link className="post-link" to = {`/reply/add/${this.state.id}`}>Reply to this post</Link>
 
@@ -77,7 +77,7 @@ class SpecificGamePost extends Component {
                             let date = reply.dateCreated.split("T")[0];
                             let editLink;
                             if(JSON.parse(sessionStorage.tokenUser).id === reply.author[0]._id || JSON.parse(sessionStorage.tokenUser).role === "Admin"){
-                                editLink = <Link to={`/reply/edit/${reply._id}`}>edit</Link>;
+                                editLink = <Link className="post-link" to={`/reply/edit/${reply._id}`}>Edit</Link>;
                             } else {
                                 editLink = "";
                             }

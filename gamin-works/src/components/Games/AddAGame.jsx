@@ -64,7 +64,7 @@ class AddAGame extends Component {
     render() {
         return (
             <div>
-                <h3>Add A Game</h3>
+                <h2>Add A Game</h2>
                 <form action="">
                     <div className="form-group">
                         <label htmlFor="title">Title:{" "}</label>

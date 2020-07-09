@@ -3,6 +3,10 @@ body {
   color: white;
 }
 
+p{
+    font-size: large;
+}
+
 /* Drop down for select consoles */
 
 .dropdown-content {
@@ -22,7 +26,7 @@ body {
     width: 150px;
     height: 100px;
     position: relative; left: 25%;
-    background-color: rgb(3, 118, 196) ;
+    background-color: #022b47 ;
 }
 
 .dropdown:hover .dropdown-content {
@@ -41,7 +45,7 @@ body {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     padding: 1%;
-    background-color: rgb(1, 36, 59);
+    background-color: #048BE6;
 }
 
 #home-link{
@@ -64,21 +68,24 @@ body {
 }
 
 .login-logout-link{
+    font-weight: bolder;
     grid-column: 4;
     position: relative; bottom: -43%;
     font-size: large;
     text-decoration: none;
-    color: rgb(180, 179, 179);
+    color: #212020;
     height: 1%;
 }
 
 .register-myProfile-link{
+    font-weight: bolder;
     grid-column: 5;
     position: relative; bottom: -43%;
     font-size: large;
     text-decoration: none;
-    color: rgb(180, 179, 179);
+    color: #212020;
     height: 1%;
+    color: b;
 }
 
 /* Home */
@@ -93,6 +100,7 @@ body {
     border: 2px solid black;
     margin-left: 1%;
     height: 500px;
+    font-size: large ;
     
 }
 
@@ -117,13 +125,15 @@ font-size: x-large;
 .relatedTopic-link{
     color: white;
     text-decoration: none;
+    font-size: large;
 }
 
 .relatedTopic-link:hover{
     text-decoration: underline;
 }
 .post-link{
-    color:  rgb(3, 118, 196);
+    color:  #048BE6;
+    font-size: large;
     text-decoration: none;
 }
 
@@ -144,7 +154,7 @@ font-size: x-large;
 
 .popular-game-link, .popular-console-link{
     color:  rgb(3, 118, 196);
-    font-size: large;
+    font-size: larger;
     text-decoration: none;
 }
 
@@ -194,20 +204,21 @@ font-size: x-large;
     grid-column: 1;
     grid-row: 2;
     position: relative; bottom: 10%;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     height: 350px;
+    border-right: 2px solid black;
 }
 
 #recent-replies{
     grid-column: 2;
     grid-row: 2;
     position: relative; bottom: 10%;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     height: 350px;
 }
 
 #recent-posts h5, #recent-replies h5{
-    font-size: large;
+    font-size: larger;
 }
 
 #name-section, #contact-section, #bio-section, #signature-section{
@@ -228,6 +239,7 @@ font-size: x-large;
     grid-row: 1;
     text-align: left;
     font-size: xx-large;
+    margin-left: 1%;
 }
 
 #game-post-btn{
@@ -238,10 +250,12 @@ font-size: x-large;
 #games-section, #console-posts-section{
     grid-column: 1;
     grid-row: 3;
+   
 }
 
 #console-posts, #games, #game-posts{
     overflow-y: scroll;
+    height: 150px;
 }
 
 #games-section h5, #console-posts-section h5, #console-details h5, #game-details h4, #game-posts-section h4{
@@ -252,6 +266,11 @@ font-size: x-large;
 #game-details{
     grid-column: 2;
     grid-row: 2;
+}
+
+.form-group{
+    margin: 1%;
+    padding: 1%;
 }
 
 

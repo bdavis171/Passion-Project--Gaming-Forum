@@ -128,6 +128,8 @@ class SpecificPlatform extends Component {
                 </div>
                 <br/>
                 <Link className="post-link" to={`/posts/consoles/createPost/${this.state.name}`}>Create a Post</Link>
+                <br/>
+                <br/>
             </div>
 
         }
