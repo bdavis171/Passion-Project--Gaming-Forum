@@ -49,13 +49,13 @@ export default class Login extends Component {
     return (
       <div>
         <div>
-          <h5>Login</h5>
+          <h2>Login</h2>
           <form action="">
-          <div>
+          <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange}/>
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="password">Password:</label>
             <input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChange}/>
           </div>

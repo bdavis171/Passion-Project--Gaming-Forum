@@ -70,7 +70,7 @@ class SpecificPlatform extends Component {
 
         if (JSON.parse(sessionStorage.tokenUser).role === "Admin") {
             
-            addGame = <Link className="post-link" to="/games/addGame">Add Game</Link>;
+            addGame = <Link className="addConsole-addGame-link" to="/games/addGame">Add Game</Link>;
         } else {
             
             addGame = "";
@@ -148,8 +148,8 @@ class SpecificPlatform extends Component {
                 </div>
             
             <div id="game-post-btn">
-                <button onClick={this.handleDisplayGames}>Games</button>
-                <button onClick={this.handleDisplayPosts}>Posts</button>
+                <button id="game-btn" onClick={this.handleDisplayGames}>Games</button>
+                <button id="post-btn" onClick={this.handleDisplayPosts}>Posts</button>
             </div>
                 
                 {displayPosts}

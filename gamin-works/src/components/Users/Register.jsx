@@ -54,17 +54,17 @@ class Register extends Component {
 
     return (
       <div>
-        <h5>Register</h5>
+        <h2>Register</h2>
         <form action="">
-          <div>
+          <div className="form-group">
             <label htmlFor="name">Name:</label>
             <input type="text" name="name" id="name" value={this.state.name} onChange={this.handleChanges} value={this.state.name}/>
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input type="email" name="email" id="email" value={this.state.email} onChange={this.handleChanges} value={this.state.email}/>
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="password">Password:</label>
             <input type="password" name="password" id="password" value={this.state.password} onChange={this.handleChanges} value={this.state.password}/>
           </div>

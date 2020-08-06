@@ -3,7 +3,7 @@ body {
   color: white;
 }
 
-p{
+p, label, button{
     font-size: large;
 }
 
@@ -35,8 +35,8 @@ p{
 }
 
 .dropdown:hover .dropbtn {
-  background-color: blue;
-  border-color: blue;
+  background-color: #000000;
+  border-color: #000000;
   color: white;
 }
 
@@ -172,13 +172,19 @@ font-size: x-large;
 }
 
 #profile-section img{
-    position: relative; left: 37%;
+    margin-top: 2%;
+    position: relative; left: 32%;
+    background-color: white;
+}
+
+#profile-section button{
+    font-size: larger;
 }
 
 .addConsole-addGame-link{
     color: rgb(3,118,196);
     text-decoration: none;
-    font-size: large;
+    font-size: x-large;
     height: 1%;
 }
 
@@ -222,7 +228,7 @@ font-size: x-large;
 }
 
 #name-section, #contact-section, #bio-section, #signature-section{
-    font-size: large;
+    font-size: larger;
     text-align: left;
     margin-left: 1%;
 }
@@ -262,10 +268,55 @@ font-size: x-large;
     font-size: larger;
 }
 
+#game-btn{
+    margin-right: 1%;
+}
+
+#post-btn{
+    margin-left: 1%;
+}
+
 /* Games */
 #game-details{
     grid-column: 2;
     grid-row: 2;
+}
+
+/* Posts and Replies */
+.post-replies{
+    width: 60%;
+    overflow-y: scroll;
+    height: 400px;
+    position: relative; left: 20%;
+}
+
+.main-post-header, .reply-header{
+    background-color: #0099ff ;
+    height: 30px;
+    color: black;
+}
+
+.main-post-body, .reply-body{
+    background-color: #0274c0;
+    height: 70px;
+    color: black;
+}
+
+.reply-header{
+    background-color: #0274c0;
+    height: 30px;
+    color: black;
+}
+
+.reply-body{
+    background-color: #0099ff ;
+    height: 70px;
+    color: black;
+}
+
+.post-replies-header{
+    text-align: left;
+    margin-left: 1%;
 }
 
 .form-group{

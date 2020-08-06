@@ -42,7 +42,7 @@ router.post("/games/:platformID", async (req, res) => {
             
             game.save();
             platform.save();
-            console.log(platform.games);
+            
             res.send(game);
         })
     });

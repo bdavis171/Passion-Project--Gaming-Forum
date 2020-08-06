@@ -134,7 +134,7 @@ class MyProfile extends Component {
           );
         } else if (reply.relatedPost[0].relatedPlatform[0]) {
           postLink = (
-            <Link to={`/posts/consoles/view/${reply.relatedPost[0]._id}`}>
+            <Link className="post-link" to={`/posts/consoles/view/${reply.relatedPost[0]._id}`}>
               <strong>{reply.relatedPost[0].title}</strong>
             </Link>
           );
@@ -175,7 +175,8 @@ class MyProfile extends Component {
     return (
       <div id="myProfile-container">
         <div id="profile-section">
-          <img src={this.state.profileImg} alt="profile image" width="200px" />
+          <img src={this.state.profileImg} alt="profile image" width="35%" />
+          <br/>
           <Link to={`/users/edit/${JSON.parse(sessionStorage.tokenUser).id}`}>
             {" "}
             <button>Edit Profile</button>{" "}
@@ -201,6 +202,8 @@ class MyProfile extends Component {
           </div>
 
           {addConsole}
+          <br/>
+          <br/>
         </div>
 
         <div id="recent-activity-section">
